@@ -1,10 +1,39 @@
 <h1>Visualizar Fabricante</h1>
 <div class="fabricante-container">
-  {{#each fabricantes}}
-    <div>
-      {{this.idfabricante}}
-      -
-      {{this.fabricante}}
-    </div>
-  {{/each}}
+
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Código
+        </th>
+        <th>
+          Fabricante 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {{#each fabricantes}}
+      <tr>
+        <td>
+          {{this.id_fabricante}}
+        </td>
+        <td>
+          {{this.fabricante}}
+        </td>
+        <td>
+          <button>
+            editar
+          </button>
+        </td>
+        <td>
+          <button>
+            excluir
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

@@ -1,6 +1,7 @@
 import express from "express";
 import exphbs from "express-handlebars";
 import mysql from "mysql2";
+//import dotenv from "dotenv";
 
 const app = express();
 
@@ -33,7 +34,11 @@ app.post("/cadastro/fabricante", (req, res) => {
       console.log(err);
     }
   });
+
+  res.render("cadastroFabricante");
+
 });
+
 app.get("/visualizar/fabricante", (req, res) => {
   //resgatar dados da tabela fabricante
   const sql = `select * from fabricante`;
@@ -106,12 +111,15 @@ app.listen(3333, () => {
   console.log("App funcionando");
 });
 
+//dotenv.config();
+
 const conn = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "@BDbancodedados1234*",
   database: "companhiaaerea",
 });
+
 conn.connect((err) => {
   if (err) {
     console.log(err);
