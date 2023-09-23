@@ -1,0 +1,22 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Projeto proposto no 1° semestre de Engenharia de Software na PUC-Campinas.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "mysql2": "^3.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

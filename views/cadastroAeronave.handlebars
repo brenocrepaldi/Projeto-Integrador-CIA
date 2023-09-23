@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="header">
+    <h1>Cadastro de Aeronave</h1>
+  </div>
+  <form action="/cadastro/aeronave" method="POST">
+    <div class="form-control">
+      <label for="modelo">modelo</label>
+      <input
+        type="text"
+        name="modelo"
+        placeholder="Insira o modelo da aeronave"
+      />
+    </div>
+    <div class="form-control">
+      <label for="anoFabricacao">Ano de Fabricação</label>
+      <input
+        type="text"
+        name="anoFabricacao"
+        placeholder="Insira o ano de fabricação"
+      />
+    </div>
+    <div class="form-control">
+      <label for="idFabricante">Fabricante</label>
+      <input
+        type="text"
+        name="idFabricante"
+        placeholder="Insira o fabricante"
+      />
+    </div>
+    <button type="submit">Cadastrar</button>
+  </form>
+</div>
