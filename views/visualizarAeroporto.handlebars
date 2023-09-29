@@ -1,10 +1,25 @@
-<h1>aeroportos</h1>
-<div class="control-aeroporto">
-  {{#each aeroportos}}
-    <div>
-      {{this.aeroporto}}
-      {{this.cidade}}
-    </div>
-
-  {{/each}}
+<div class="container-visualizar">
+  <div class="header-visualizar">
+    <h1>aeroportos</h1>
+  </div>
+  <div class="control-dados">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Fabricante</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each aeroportos}}
+          <tr>
+            <td>{{this.aeroporto}}</td>
+            <td>{{this.cidade}}</td>
+            <td class="button"><button>Editar</button></td>
+            <td class="button"><button>Excluir</button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>

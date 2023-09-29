@@ -1,0 +1,14 @@
+input,
+select {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1.2rem;
+}
+
+label {
+  display: block; /* Faz com que cada label ocupe uma linha separada */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}

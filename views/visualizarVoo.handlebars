@@ -1,0 +1,27 @@
+<div class="container-visualizar">
+  <h1>Voos</h1>
+  <div class="control-voo">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Preço</th>
+          <th>Aeroporto Saída</th>
+          <th>Aeroporto Chegada</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each voos}}
+          <tr>
+            <td>{{this.idvoo}}</td>
+            <td>{{this.preco}}</td>
+            <td>{{this.aeroportosaida}}</td>
+            <td>{{this.aeroportochegada}}</td>
+            <td><button>Editar</button></td>
+            <td><button>Excluir</button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,10 +1,30 @@
-<h1>Aeronaves</h1>
-<div class="control-aeronaves">
-  {{#each aeronaves}}
-    <div>
-      {{this.modelo}}
-      {{this.anofabricacao}}
-      {{this.idfabricante}}
-    </div>
-  {{/each}}
+<div class="container-visualizar">
+  <div class="header-visualizar">
+    <h1>Aeronaves</h1>
+  </div>
+  <div class="control-dados">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Modelo</th>
+          <th>Ano de fabricação</th>
+          <th>Fabricante</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each aeronaves}}
+          <tr>
+            <td>{{this.idaeronave}}</td>
+            <td>{{this.modelo}}</td>
+            <td>{{this.anofabricacao}}</td>
+            <td>{{this.idfabricante}}</td>
+            <td class="button"><button>Editar</button></td>
+            <td class="button"><button>Excluir</button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+  </div>
 </div>

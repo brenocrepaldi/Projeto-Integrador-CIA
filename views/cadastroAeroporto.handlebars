@@ -1,23 +1,26 @@
-<div class="container">
-  <div class="header">
-    <h1>Cadastro de Aeronave</h1>
+<div class="container-cadastro">
+  <div class="header-cadastro">
+    <h1>Cadastro de Aeroporto</h1>
   </div>
-  <form action="/cadastro/aeroporto" method="POST">
-    <div class="form-control">
-      <label for="aeroporto" >Aeroporto</label>
-      <input
-        type="text"
-        name="aeroporto"
-        placeholder="Insira o nome do aeroporto"
-      />
+  <form action="/cadastro/aeroporto" method="POST" class="form">
+    <div class="control-input">
+      <div class="input">
+        <label for="aeroporto">Aeroporto</label>
+        <input
+          type="text"
+          name="aeroporto"
+          placeholder="Insira o nome do aeroporto"
+        />
+      </div>
+      <div class="input">
+        <label for="cidade">Cidade</label>
+        <input type="text" name="cidade" placeholder="Insira a cidade" />
+      </div>
     </div>
-    <div class="form-control">
-      <label for="cidade">Cidade</label>
-      <input
-        type="text"
-        name="cidade"
-        placeholder="Insira a cidade"
-      />
-    <button type="submit">Cadastrar</button>
+
+    <div class="control-button">
+      <button type="submit">Cadastrar</button>
+      <button type="reset">Limpar</button>
+    </div>
   </form>
 </div>

@@ -1,4 +1,4 @@
-'# Companhia aérea - Administrador
+# Companhia aérea - Administrador
 
 Projeto proposto no 1° semestre de Engenharia de Software na PUC-Campinas.
 

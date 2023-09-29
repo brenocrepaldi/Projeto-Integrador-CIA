@@ -1,0 +1,34 @@
+<div class="container-home">
+  <div class="header-home">
+    <h1>Companhia aérea</h1>
+  </div>
+  <div class="content-home">
+    <div class="menu" id="cadastro">
+      <a href="">Cadastro</a>
+      <div class="sub-menu">
+        <a href="/cadastro/aeroporto">Cadastro Aeroporto</a>
+        <a href="/cadastro/aeronave">Cadastro Aeronave</a>
+        <a href="/cadastro/Voo">Cadastro Voo</a>
+        <a href="/cadastro/Fabricante">Cadastro Fabricante</a>
+      </div>
+    </div>
+    <div class="menu">
+      <a href="#" id="visualizar">Visualizar</a>
+      <div class="sub-menu">
+        <a href="/visualizar/aeroporto">Aeroporto</a>
+        <a href="/visualizar/aeronave">Aeronave</a>
+        <a href="/visualizar/Voo">Voo</a>
+        <a href="/visualizar/Fabricante">Fabricante</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() { const toggleMenu =
+  document.getElementById("visualizar"); const subMenu =
+  document.querySelector("sub-menu"); toggleMenu.addEventListener("click",
+  function(e) { e.preventDefault(); // Evita que o link recarregue a página
+  subMenu.classList.toggle("active"); }); });
+</script>
