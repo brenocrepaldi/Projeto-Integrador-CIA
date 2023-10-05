@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container-visualizar">
   <div class="header-visualizar">
     <h1>Visualizar Fabricante</h1>
@@ -22,4 +23,44 @@
       </tbody>
     </table>
   </div>
+=======
+<h1>Visualizar Fabricante</h1>
+<div class="fabricante-container">
+
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Código
+        </th>
+        <th>
+          Fabricante 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {{#each fabricantes}}
+      <tr>
+        <td>
+          {{this.id_fabricante}}
+        </td>
+        <td>
+          {{this.fabricante}}
+        </td>
+        <td>
+          <button>
+            editar
+          </button>
+        </td>
+        <td>
+          <button>
+            excluir
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+>>>>>>> badf53a6881e197ab8ed9a2cecc0a420f722c17c
 </div>
