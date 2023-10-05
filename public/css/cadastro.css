@@ -23,7 +23,7 @@
 .control-input {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(2, minmax(200px, 2fr));
+  grid-template-columns: repeat(3, minmax(200px, 2fr));
   margin-bottom: 2rem;
 }
 .control-button {

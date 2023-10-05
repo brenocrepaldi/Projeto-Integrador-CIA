@@ -1,12 +1,13 @@
-import { conn, executaSql } from "./database.js";
+import { conn, executaSql } from "./databasee";
+import { Request, Response } from "express";
 
-export function cadastroFabricante(req, res) {
+export function cadastroFabricante(req: Request, res: Response) {
   const fabricante = req.body.fabricante; //pegando os dados do input fabricante no body
 
   const sql = `insert into fabricante (fabricante) values ('${fabricante}');`;
   executaSql(sql);
 }
-export function visualizarFabricante(req, res) {
+export function visualizarFabricante(req: Request, res: Response) {
   const sql = `select * from fabricante`;
   conn.query(sql, (err, data) => {
     if (err) {

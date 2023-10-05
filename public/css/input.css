@@ -5,7 +5,9 @@ select {
   border-radius: 3px;
   font-size: 1.2rem;
 }
-
+select {
+  padding: 0.8rem 3rem;
+}
 label {
   display: block; /* Faz com que cada label ocupe uma linha separada */
   font-size: 16px;

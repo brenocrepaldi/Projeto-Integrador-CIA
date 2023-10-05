@@ -1,9 +1,10 @@
 import express from "express";
-import exphbs from "express-handlebars"; //import {engine} from 'express-handlebars'
-import { abreConexao, conn, executaSql } from "./database.js";
-import { cadastroFabricante, visualizarFabricante } from "./fabricante.js";
-import { cadastroAeronave, visualizaAeronave } from "./aeronave.js";
-import { cadastroAeroporto, visualizaAeroporto } from "./aeroporto.js";
+import exphbs from "express-handlebars";
+
+import { abreConexao, conn, executaSql } from "./databasee";
+import { cadastroFabricante, visualizarFabricante } from "./fabricantee";
+import { cadastroAeronave, visualizaAeronave } from "./aeronavee";
+import { cadastroAeroporto, visualizaAeroporto } from "./aeroportoo";
 
 abreConexao();
 export const app = express();
@@ -13,15 +14,23 @@ app.use(
     extended: true,
   })
 );
-app.use(express.json()); //pegar o body em json
 
+app.use(express.json()); //pegar o body em json
 const hbs = exphbs.create({
   //configurando diretório partials
   partialsDir: ["views/partials"],
 });
 
-app.engine("handlebars", hbs.engine); //Isso significa que estamos dizendo à nossa aplicação que, quando ela precisar renderizar páginas HTML, deve usar o mecanismo de template Handlebars.
-app.set("view engine", "handlebars"); //está fornecendo o mecanismo de template Handlebars para o Express.js
+// app.engine(
+//   "handlebars",
+//   exphbs.engine({
+//     defaultLayout: "main", // Nome do layout padrão (main.handlebars)
+//     layoutsDir: path.join(__dirname, "views", "layouts"), // Pasta de layouts
+//     partialsDir: path.join(__dirname, "views", "partials"), // Pasta de partials
+//   })
+// );
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
 
 app.use(express.static("public")); //configurando pra receber o css, definindo a pasta public como static
 

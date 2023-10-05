@@ -1,5 +1,5 @@
 import mysql from "mysql2";
-import { app } from "./index.js";
+import { app } from "./app";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -20,7 +20,7 @@ export function abreConexao() {
     app.listen(3000);
   });
 }
-export function executaSql(sql) {
+export function executaSql(sql: string) {
   //função para executar query
   return conn.query(sql, (err, data) => {
     if (err) {

@@ -10,14 +10,7 @@
           type="text"
           name="modelo"
           placeholder="Insira o modelo da aeronave"
-        />
-      </div>
-      <div class="input">
-        <label for="numAssento">Número de assentos</label>
-        <input
-          type="text"
-          name="numAssento"
-          placeholder="Quantidade de assentos"
+          value="{{this.modelo}}"
         />
       </div>
       <div class="input">
@@ -26,14 +19,14 @@
           type="text"
           name="anoFabricacao"
           placeholder="Insira o ano de fabricação"
+          value="{{this.anofabricacao}}"
         />
       </div>
       <div class="input">
         <label for="idFabricante">Fabricante</label>
         <select name="idFabricante">
-          {{#each fabricante}}
-            <option value="{{this.fabricante}}">{{this.fabricante}}</option>
-          {{/each}}
+          <option value="{{this.fabricante}}">{{this.fabricante}}</option>
+
         </select>
       </div>
     </div>
