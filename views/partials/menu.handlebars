@@ -2,16 +2,21 @@
   <div class="header-menu">
     <h1>Companhia aérea</h1>
   </div>
-  <div class="content-menu" id="cadastro">
-    <a href="/cadastro/aeroporto">Cadastro Aeroporto</a>
-    <a href="/cadastro/aeronave">Cadastro Aeronave</a>
-    <a href="/cadastro/Voo">Cadastro Voo</a>
-    <a href="/cadastro/Fabricante">Cadastro Fabricante</a>
-  </div>
-  <div class="content-menu" id="visualizar">
-    <a href="/visualizar/aeroporto">Aeroporto</a>
-    <a href="/visualizar/aeronave">Aeronave</a>
-    <a href="/visualizar/Voo">Voo</a>
-    <a href="/visualizar/Fabricante">Fabricante</a>
-  </div>
+  <nav id="nav">
+    <button
+      aria-label="Abrir Menu"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-controls="menu"
+      id="btn-cadastro"
+    >
+      Cadastro
+    </button>
+    <ul id="menu" role="menu">
+      <li><a href="/cadastrar/aeronave">Aeronave</a></li>
+      <li><a href="/cadastrar/aeroporto">Aeroporto</a></li>
+      <li><a href="/cadastrar/fabricante">Fabricante</a></li>
+      <li><a href="/cadastrar/voo">Voo</a></li>
+    </ul>
+  </nav>
 </div>
