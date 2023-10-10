@@ -4,10 +4,11 @@ import * as dotenv from "dotenv";
 
 // import { executaSql } from "./databasee";
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
-import { cadastroFabricante } from "./cadastroFabricante";
-// import { cadastroFabricante } from "./cadastroFabricante";
-// import { cadastroAeronave } from "./aeronavee";
-// import { cadastroAeroporto } from "./aeroportoo";
+import { cadastroFabricante } from "./fabricantee";
+import { cadastroAeronave } from "./aeronavee";
+import { cadastroAeroporto } from "./aeroportoo";
+import { cadastroVoo } from "./voo";
+import { cadastroTrecho } from "./trecho";
 
 // abreConexao();//codigo antigo mysql
 export const app = express();
@@ -33,16 +34,55 @@ app.set("views", "./views");
 app.get("/home", (req, res) => {
   res.render("home");
 });
+
+app.get("/cadastro/aeronave", (req, res) => {
+  res.render('cadastroAeronave');
+});
+
+app.post("/cadastro/aeronave", (req, res) => {
+  const modelo = req.body.modelo;
+  const numAssento = req.body.numAssento;
+  const anoFabricacao = req.body.anoFabricacao;
+  cadastroAeronave(modelo, numAssento, anoFabricacao, req, res);
+});
+
 app.get("/cadastro/fabricante", (req, res) => {
-  res.render("cadastroFabricante"); // renderiza a página do fabricante
+  res.render('cadastroFabricante'); // renderiza a página do fabricante
 });
 app.post("/cadastro/fabricante", (req, res) => {
   const fabricante = req.body.fabricante;
   cadastroFabricante(fabricante, req, res);
 });
-// app.get("/visualizar/fabricante", (req, res) => {
-//   visualizarFabricante(req, res);
-// });
+
+app.get("/cadastro/aeroporto", (req, res) => {
+  res.render('cadastroAeroporto');
+});
+
+app.post("/cadastro/aeroporto", (req, res) => {
+  const aeroporto = req.body.aeroporto;
+  const cidade = req.body.cidade;
+  cadastroAeroporto(aeroporto, cidade, req, res);
+});
+
+app.get("/cadastro/voo", (req, res) => {
+  res.render('cadastroVoo');
+});
+
+app.post("/cadastro/voo", (req, res) => {
+  const valor = req.body.valor;
+  cadastroVoo(valor, req, res);
+});
+
+app.get("/cadastro/trecho", (req, res) => {
+  res.render('cadastroTrecho');
+})
+
+app.post("/cadastro/trecho", (req, res) => {
+  const AeroportoSaida = req.body.idAeroportoSaida;
+  const AeroportoChegada = req.body.idAeroportoChegada;
+  cadastroTrecho(AeroportoSaida, AeroportoChegada, req, res);
+})
+
 // app.get("/editar/fabricante/:id", (req, res) => {
 //   const id = req.params.id;
 //   const sql = `select fabricante from fabricante where idfabricante=${id}`;
@@ -55,19 +95,10 @@ app.post("/cadastro/fabricante", (req, res) => {
 //   });
 // });
 
-// app.get("/cadastro/aeronave", (req, res) => {
-//   const sql = "select fabricante from fabricante ";
-//   connection.execute(sql, (err, data) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     const fabricante = data;
-//     res.render("cadastroAeronave", { fabricante });
-//   });
+// app.get("/visualizar/fabricante", (req, res) => {
+//   visualizarFabricante(req, res);
 // });
-// app.post("/cadastro/aeronave", (req, res) => {
-//   cadastroAeronave(req, res);
-// });
+
 // app.get("/visualizar/aeronave", (req, res) => {
 //   visualizaAeronave(req, res);
 // });
@@ -82,13 +113,6 @@ app.post("/cadastro/fabricante", (req, res) => {
 //     res.render("cadastroAeronave", { aeronave });
 //   });
 // });
-app.get("/cadastro/aeroporto", (req, res) => {
-  res.render("cadastroAeroporto");
-});
-
-// app.post("/cadastro/aeroporto", (req, res) => {
-//   cadastroAeroporto(req, res);
-// });
 
 // app.get("/visualizar/aeroporto", (req, res) => {
 //   visualizaAeroporto(req, res);
@@ -97,16 +121,7 @@ app.get("/cadastro/aeroporto", (req, res) => {
 //   const sql = "select * from voo";
 //   executaSql(sql);
 // });
-// app.get("/cadastro/voo", (req, res) => {
-//   const sql = "select * from trecho";
-//   connection.execute(sql, (err, data) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     const trechos = data;
-//     res.render("cadastroVoo", { trechos });
-//   });
-// });
+
 app.use(express.static("public")); //configurando pra receber o css, definindo a pasta public como static
 
 app.listen(3333, () => {

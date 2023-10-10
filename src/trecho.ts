@@ -6,11 +6,12 @@ export type CustomResponse = {
   payload: any;
 };
 
-export async function cadastroFabricante(
-  fabricante: string,
-  req: Request,
-  res: Response
-) {
+export async function cadastroTrecho(
+  AeroportoSaida:string, 
+  AeroportoChegada:string, 
+  req:Request, 
+  res:Response
+){
   let conn;
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
 
@@ -21,23 +22,17 @@ export async function cadastroFabricante(
       connectionString: process.env.ORACLE_STR,
     });
 
-    const cmdInsertAero = `INSERT INTO FABRICANTE 
-   (ID_FABRICANTE, NOME_FABRICANTE)
-   VALUES
-   (SEQ_AERONAVES.NEXTVAL, :1)`;
+    const cmdInsertAero = ``;
 
-    const dados = [fabricante];
+    const dados = [AeroportoSaida, AeroportoChegada];
     let resInsert = await conn.execute(cmdInsertAero, dados);
 
-    // importante: efetuar o commit para gravar no Oracle.
     await conn.commit();
 
-    // obter a informação de quantas linhas foram inseridas.
-    // neste caso precisa ser exatamente 1
     const rowsInserted = resInsert.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
-      cr.message = "Fabricante inserida.";
+      cr.message = "Aeroportos inseridos.";
     }
   } catch (e) {
     if (e instanceof Error) {
@@ -47,6 +42,6 @@ export async function cadastroFabricante(
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
-    res.render("cadastroFabricante");
+    res.render("cadastroTrecho");
   }
 }
