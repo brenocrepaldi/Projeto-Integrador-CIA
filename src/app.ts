@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import exphbs, { create } from "express-handlebars";
 import * as dotenv from "dotenv";
 
@@ -36,18 +36,19 @@ app.get("/home", (req, res) => {
 });
 
 app.get("/cadastro/aeronave", (req, res) => {
-  res.render('cadastroAeronave');
+  res.render("cadastroAeronave");
 });
 
 app.post("/cadastro/aeronave", (req, res) => {
   const modelo = req.body.modelo;
   const numAssento = req.body.numAssento;
   const anoFabricacao = req.body.anoFabricacao;
+
   cadastroAeronave(modelo, numAssento, anoFabricacao, req, res);
 });
 
 app.get("/cadastro/fabricante", (req, res) => {
-  res.render('cadastroFabricante'); // renderiza a página do fabricante
+  res.render("cadastroFabricante"); // renderiza a página do fabricante
 });
 app.post("/cadastro/fabricante", (req, res) => {
   const fabricante = req.body.fabricante;
@@ -55,7 +56,7 @@ app.post("/cadastro/fabricante", (req, res) => {
 });
 
 app.get("/cadastro/aeroporto", (req, res) => {
-  res.render('cadastroAeroporto');
+  res.render("cadastroAeroporto");
 });
 
 app.post("/cadastro/aeroporto", (req, res) => {
@@ -65,7 +66,7 @@ app.post("/cadastro/aeroporto", (req, res) => {
 });
 
 app.get("/cadastro/voo", (req, res) => {
-  res.render('cadastroVoo');
+  res.render("cadastroVoo");
 });
 
 app.post("/cadastro/voo", (req, res) => {
@@ -74,14 +75,14 @@ app.post("/cadastro/voo", (req, res) => {
 });
 
 app.get("/cadastro/trecho", (req, res) => {
-  res.render('cadastroTrecho');
-})
+  res.render("cadastroTrecho");
+});
 
 app.post("/cadastro/trecho", (req, res) => {
   const AeroportoSaida = req.body.idAeroportoSaida;
   const AeroportoChegada = req.body.idAeroportoChegada;
   cadastroTrecho(AeroportoSaida, AeroportoChegada, req, res);
-})
+});
 
 // app.get("/editar/fabricante/:id", (req, res) => {
 //   const id = req.params.id;

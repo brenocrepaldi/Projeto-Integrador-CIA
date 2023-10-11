@@ -6,12 +6,8 @@ export type CustomResponse = {
   payload: any;
 };
 
-export async function cadastroVoo(
-    valor:number,
-    req:Request,
-    res:Response
-){
-    let conn;
+export async function cadastroVoo(valor: number, req: Request, res: Response) {
+  let conn;
   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
 
   try {

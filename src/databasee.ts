@@ -9,49 +9,24 @@ export type CustomResponse = {
   message: string;
   payload: any;
 };
+export let cr: CustomResponse = {
+  status: "ERROR",
+  message: "",
+  payload: undefined,
+};
 
-// servicos de backend
-// export async function executaSql(
-//   sql: string,
-//   coluna: string,
-//   req: Request,
-//   res: Response
-// ) {
-//   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
+export async function executaSql(sql: string, dados: Array<any>) {
+  let conn = await oracledb.getConnection({
+    user: process.env.ORACLE_USER,
+    password: process.env.ORACLE_PASSWORD,
+    connectionString: process.env.ORACLE_STR,
+  });
+  let resInsert = await conn.execute(sql, dados);
 
-//   try {
-//     let conn = await oracledb.getConnection({
-//       user: process.env.ORACLE_USER,
-//       password: process.env.ORACLE_PASSWORD,
-//       connectionString: process.env.ORACLE_STR,
-//     });
-
-//     const cmdInsertAero = `INSERT INTO FABRICANTE
-//    (ID_FABRICANTE, NOME_FABRICANTE)
-//    VALUES
-//    (SEQ_AERONAVES.NEXTVAL, :1)`;
-
-//     const dados = [coluna];
-//     let resInsert = await conn.execute(cmdInsertAero, dados);
-
-//     // importante: efetuar o commit para gravar no Oracle.
-//     await conn.commit();
-
-//     // obter a informação de quantas linhas foram inseridas.
-//     // neste caso precisa ser exatamente 1
-//     const rowsInserted = resInsert.rowsAffected;
-//     if (rowsInserted !== undefined && rowsInserted === 1) {
-//       cr.status = "SUCCESS";
-//       cr.message = "Fabricante inserida.";
-//     }
-//   } catch (e) {
-//     if (e instanceof Error) {
-//       cr.message = e.message;
-//       console.log(e.message);
-//     } else {
-//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-//     }
-//   } finally {
-//     res.send(cr);
-//   }
-// }
+  await conn.commit();
+  const rowsInserted = resInsert.rowsAffected;
+  if (rowsInserted !== undefined && rowsInserted === 1) {
+    cr.status = "SUCCESS";
+    cr.message = "Aeronave inserida";
+  }
+}

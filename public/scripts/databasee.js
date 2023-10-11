@@ -22,46 +22,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.executaSql = exports.cr = void 0;
+const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-// servicos de backend
-// export async function executaSql(
-//   sql: string,
-//   coluna: string,
-//   req: Request,
-//   res: Response
-// ) {
-//   let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
-//   try {
-//     let conn = await oracledb.getConnection({
-//       user: process.env.ORACLE_USER,
-//       password: process.env.ORACLE_PASSWORD,
-//       connectionString: process.env.ORACLE_STR,
-//     });
-//     const cmdInsertAero = `INSERT INTO FABRICANTE
-//    (ID_FABRICANTE, NOME_FABRICANTE)
-//    VALUES
-//    (SEQ_AERONAVES.NEXTVAL, :1)`;
-//     const dados = [coluna];
-//     let resInsert = await conn.execute(cmdInsertAero, dados);
-//     // importante: efetuar o commit para gravar no Oracle.
-//     await conn.commit();
-//     // obter a informação de quantas linhas foram inseridas.
-//     // neste caso precisa ser exatamente 1
-//     const rowsInserted = resInsert.rowsAffected;
-//     if (rowsInserted !== undefined && rowsInserted === 1) {
-//       cr.status = "SUCCESS";
-//       cr.message = "Fabricante inserida.";
-//     }
-//   } catch (e) {
-//     if (e instanceof Error) {
-//       cr.message = e.message;
-//       console.log(e.message);
-//     } else {
-//       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
-//     }
-//   } finally {
-//     res.send(cr);
-//   }
-// }
+exports.cr = {
+    status: "ERROR",
+    message: "",
+    payload: undefined,
+};
+async function executaSql(sql, dados) {
+    let conn = await oracledb_1.default.getConnection({
+        user: process.env.ORACLE_USER,
+        password: process.env.ORACLE_PASSWORD,
+        connectionString: process.env.ORACLE_STR,
+    });
+    let resInsert = await conn.execute(sql, dados);
+    await conn.commit();
+    const rowsInserted = resInsert.rowsAffected;
+    if (rowsInserted !== undefined && rowsInserted === 1) {
+        exports.cr.status = "SUCCESS";
+        exports.cr.message = "Aeronave inserida";
+    }
+}
+exports.executaSql = executaSql;

@@ -34,7 +34,7 @@ const fabricantee_1 = require("./fabricantee");
 const aeronavee_1 = require("./aeronavee");
 const aeroportoo_1 = require("./aeroportoo");
 const voo_1 = require("./voo");
-//import { cadastroTrecho } from "./trecho";
+const trecho_1 = require("./trecho");
 // abreConexao();//codigo antigo mysql
 exports.app = (0, express_1.default)();
 dotenv.config();
@@ -55,7 +55,7 @@ exports.app.get("/home", (req, res) => {
     res.render("home");
 });
 exports.app.get("/cadastro/aeronave", (req, res) => {
-    res.render('cadastroAeronave');
+    res.render("cadastroAeronave");
 });
 exports.app.post("/cadastro/aeronave", (req, res) => {
     const modelo = req.body.modelo;
@@ -64,14 +64,14 @@ exports.app.post("/cadastro/aeronave", (req, res) => {
     (0, aeronavee_1.cadastroAeronave)(modelo, numAssento, anoFabricacao, req, res);
 });
 exports.app.get("/cadastro/fabricante", (req, res) => {
-    res.render('cadastroFabricante'); // renderiza a página do fabricante
+    res.render("cadastroFabricante"); // renderiza a página do fabricante
 });
 exports.app.post("/cadastro/fabricante", (req, res) => {
     const fabricante = req.body.fabricante;
     (0, fabricantee_1.cadastroFabricante)(fabricante, req, res);
 });
 exports.app.get("/cadastro/aeroporto", (req, res) => {
-    res.render('cadastroAeroporto');
+    res.render("cadastroAeroporto");
 });
 exports.app.post("/cadastro/aeroporto", (req, res) => {
     const aeroporto = req.body.aeroporto;
@@ -79,16 +79,19 @@ exports.app.post("/cadastro/aeroporto", (req, res) => {
     (0, aeroportoo_1.cadastroAeroporto)(aeroporto, cidade, req, res);
 });
 exports.app.get("/cadastro/voo", (req, res) => {
-    res.render('cadastroVoo');
+    res.render("cadastroVoo");
 });
 exports.app.post("/cadastro/voo", (req, res) => {
     const valor = req.body.valor;
     (0, voo_1.cadastroVoo)(valor, req, res);
 });
 exports.app.get("/cadastro/trecho", (req, res) => {
-    res.render('cadastroTrecho');
+    res.render("cadastroTrecho");
 });
 exports.app.post("/cadastro/trecho", (req, res) => {
+    const AeroportoSaida = req.body.idAeroportoSaida;
+    const AeroportoChegada = req.body.idAeroportoChegada;
+    (0, trecho_1.cadastroTrecho)(AeroportoSaida, AeroportoChegada, req, res);
 });
 // app.get("/editar/fabricante/:id", (req, res) => {
 //   const id = req.params.id;
