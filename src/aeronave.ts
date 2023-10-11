@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql } from "./databasee";
+import { cr, executaSql } from "./database";
 
 export async function cadastroAeronave(
   modelo: string,
@@ -9,13 +9,14 @@ export async function cadastroAeronave(
   res: Response
 ) {
   try {
+    const objeto = "Aeronave";
     const sql = `INSERT INTO AERONAVES 
    (ID_AERONAVE, MODELO, ANOFABRICACAO, NUM_ASSENTO)
    VALUES
    (SEQ_AERONAVES.NEXTVAL, :1, :2, :3)`;
 
     const dados = [modelo, numAssento, anoFabricacao];
-    executaSql(sql, dados);
+    executaSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -24,6 +25,7 @@ export async function cadastroAeronave(
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    console.log(cr);
     res.render("cadastroAeronave");
   }
 }

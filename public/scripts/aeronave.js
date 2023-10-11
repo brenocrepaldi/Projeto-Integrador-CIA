@@ -1,28 +1,29 @@
-import { conn, executaSql } from "./database.js";
-
-export function cadastroAeronave(req, res) {
-  const modelo = req.body.modelo;
-  const anoFabricacao = req.body.anoFabricacao;
-  const numAssento = req.body.numAssento;
-  const fabricante = req.body.idFabricante; //pegando o valor do select = nome do fabricante
-  const sqlFabricante = `select idfabricante from fabricante where fabricante='${fabricante}'`; //sql para pegar o idfabricante de acordo com o nome retornado do select
-  conn.query(sqlFabricante, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const idFabricante = data[0].idfabricante; //pegando o idfabricante do data
-      const sql = `insert into aeronave (modelo,numassento,anofabricacao,idfabricante) values('${modelo}','${numAssento}','${anoFabricacao}','${idFabricante}');`;
-      executaSql(sql);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cadastroAeronave = void 0;
+const database_1 = require("./database");
+async function cadastroAeronave(modelo, numAssento, anoFabricacao, req, res) {
+    try {
+        const objeto = "Aeronave";
+        const sql = `INSERT INTO AERONAVES 
+   (ID_AERONAVE, MODELO, ANOFABRICACAO, NUM_ASSENTO)
+   VALUES
+   (SEQ_AERONAVES.NEXTVAL, :1, :2, :3)`;
+        const dados = [modelo, numAssento, anoFabricacao];
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
-  });
-}
-export function visualizaAeronave(req, res) {
-  const sql = `select * from aeronave a, fabricante f where a.idfabricante=f.idfabricante `;
-  conn.query(sql, (err, data) => {
-    if (err) {
-      console.log(err);
+    catch (e) {
+        if (e instanceof Error) {
+            database_1.cr.message = e.message;
+            console.log(e.message);
+        }
+        else {
+            database_1.cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
     }
-    const aeronaves = data;
-    res.render("visualizarAeronave", { aeronaves });
-  });
+    finally {
+        console.log(database_1.cr);
+        res.render("cadastroAeronave");
+    }
 }
+exports.cadastroAeronave = cadastroAeronave;

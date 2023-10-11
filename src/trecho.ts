@@ -1,39 +1,19 @@
-import oracledb, { Connection, ConnectionAttributes, Result } from "oracledb";
-import express, { Request, Response } from "express";
-export type CustomResponse = {
-  status: string;
-  message: string;
-  payload: any;
-};
+import { Request, Response } from "express";
+import { cr, executaSql } from "./database";
 
 export async function cadastroTrecho(
-  AeroportoSaida:string, 
-  AeroportoChegada:string, 
-  req:Request, 
-  res:Response
-){
-  let conn;
-  let cr: CustomResponse = { status: "ERROR", message: "", payload: undefined };
-
+  AeroportoSaida: string,
+  AeroportoChegada: string,
+  req: Request,
+  res: Response
+) {
   try {
-    conn = await oracledb.getConnection({
-      user: process.env.ORACLE_USER,
-      password: process.env.ORACLE_PASSWORD,
-      connectionString: process.env.ORACLE_STR,
-    });
+    let objeto = "Trecho";
 
-    const cmdInsertAero = ``;
+    const sql = ``;
 
     const dados = [AeroportoSaida, AeroportoChegada];
-    let resInsert = await conn.execute(cmdInsertAero, dados);
-
-    await conn.commit();
-
-    const rowsInserted = resInsert.rowsAffected;
-    if (rowsInserted !== undefined && rowsInserted === 1) {
-      cr.status = "SUCCESS";
-      cr.message = "Aeroportos inseridos.";
-    }
+    executaSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
