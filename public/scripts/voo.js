@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cadastroVoo = void 0;
+exports.visualizarVoos = exports.cadastroVoo = void 0;
 const database_1 = require("./database");
 async function cadastroVoo(valor, req, res) {
     try {
@@ -10,7 +10,7 @@ async function cadastroVoo(valor, req, res) {
    VALUES
    (SEQ_FABRICANTE.NEXTVAL, :1)`; // alterar tabela no banco
         const dados = [valor];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.inserirSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -26,3 +26,28 @@ async function cadastroVoo(valor, req, res) {
     }
 }
 exports.cadastroVoo = cadastroVoo;
+async function visualizarVoos(req, res) {
+    try {
+        const selectSql = `SELECT * FROM VOO`;
+        const result = await (0, database_1.selecionarSql)(selectSql, [], "Voos");
+        let dados;
+        if (result) {
+            dados = result.map((item) => ({
+                idVoo: item[0],
+                aeroportoSaida: item[1],
+                aeroportoChegada: item[2],
+                valor: item[3],
+            }));
+        }
+        res.render("visualizarVoo", { voos: dados });
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            console.log(e);
+        }
+        else {
+            database_1.cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+}
+exports.visualizarVoos = visualizarVoos;

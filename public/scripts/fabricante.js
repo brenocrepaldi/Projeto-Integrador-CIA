@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cadastroFabricante = void 0;
+exports.visualizarFabricante = exports.cadastroFabricante = void 0;
 const database_1 = require("./database");
 async function cadastroFabricante(fabricante, req, res) {
     try {
@@ -10,7 +10,7 @@ async function cadastroFabricante(fabricante, req, res) {
    VALUES
    (SEQ_FABRICANTE.NEXTVAL, :1)`;
         const dados = [fabricante];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.inserirSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -26,3 +26,26 @@ async function cadastroFabricante(fabricante, req, res) {
     }
 }
 exports.cadastroFabricante = cadastroFabricante;
+async function visualizarFabricante(req, res) {
+    try {
+        const selectSql = `SELECT * FROM FABRICANTE`;
+        const result = await (0, database_1.selecionarSql)(selectSql, [], "Fabricantes");
+        let dados;
+        if (result) {
+            dados = result.map((item) => ({
+                idFabricante: item[0],
+                nomeFabricante: item[1]
+            }));
+        }
+        res.render("visualizarFabricante", { fabricantes: dados });
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            console.log(e);
+        }
+        else {
+            database_1.cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+        }
+    }
+}
+exports.visualizarFabricante = visualizarFabricante;

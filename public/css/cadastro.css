@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .header-cadastro {
   width: 100%;
@@ -26,8 +27,10 @@
   grid-template-columns: repeat(3, minmax(200px, 2fr));
   margin-bottom: 2rem;
 }
+
 .control-button {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+  width: 50%;
 }

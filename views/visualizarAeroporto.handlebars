@@ -1,11 +1,12 @@
 <div class="container-visualizar">
   <div class="header-visualizar">
-    <h1>aeroportos</h1>
+    <h1>Aeroportos</h1>
   </div>
   <div class="control-dados">
     <table>
       <thead>
         <tr>
+          <th>Código</th>
           <th>Aeroporto</th>
           <th>Cidade</th>
         </tr>
@@ -13,7 +14,8 @@
       <tbody>
         {{#each aeroportos}}
           <tr>
-            <td>{{this.aeroporto}}</td>
+            <td>{{this.idAeroporto}}</td>
+            <td>{{this.nomeAeroporto}}</td>
             <td>{{this.cidade}}</td>
             <td class="button"><button>Editar</button></td>
             <td class="button"><button>Excluir</button></td>

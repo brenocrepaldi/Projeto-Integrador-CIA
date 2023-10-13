@@ -30,13 +30,11 @@ exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const express_handlebars_1 = require("express-handlebars");
 const dotenv = __importStar(require("dotenv"));
-// import { executaSql } from "./databasee";
-const fabricante_1 = require("./fabricante");
 const aeronave_1 = require("./aeronave");
 const aeroporto_1 = require("./aeroporto");
-const voo_1 = require("./voo");
+const fabricante_1 = require("./fabricante");
 const trecho_1 = require("./trecho");
-// abreConexao();//codigo antigo mysql
+const voo_1 = require("./voo");
 exports.app = (0, express_1.default)();
 dotenv.config();
 exports.app.use(
@@ -55,6 +53,9 @@ exports.app.set("views", "./views");
 exports.app.get("/home", (req, res) => {
     res.render("home");
 });
+exports.app.get("/aeronave", (req, res) => {
+    res.render("acaoAeronave");
+});
 exports.app.get("/cadastro/aeronave", (req, res) => {
     res.render("cadastroAeronave");
 });
@@ -64,6 +65,12 @@ exports.app.post("/cadastro/aeronave", (req, res) => {
     const anoFabricacao = req.body.anoFabricacao;
     (0, aeronave_1.cadastroAeronave)(modelo, numAssento, anoFabricacao, req, res);
 });
+exports.app.get("/visualizar/aeronave", (req, res) => {
+    (0, aeronave_1.visualizarAeronaves)(req, res);
+});
+exports.app.get("/aeroporto", (req, res) => {
+    res.render("acaoAeroporto");
+});
 exports.app.get("/cadastro/aeroporto", (req, res) => {
     res.render("cadastroAeroporto");
 });
@@ -72,12 +79,21 @@ exports.app.post("/cadastro/aeroporto", (req, res) => {
     const cidade = req.body.cidade;
     (0, aeroporto_1.cadastroAeroporto)(aeroporto, cidade, req, res);
 });
+exports.app.get("/visualizar/aeroporto", (req, res) => {
+    (0, aeroporto_1.visualizarAeroportos)(req, res);
+});
+exports.app.get("/fabricante", (req, res) => {
+    res.render("acaoFabricante");
+});
 exports.app.get("/cadastro/fabricante", (req, res) => {
     res.render("cadastroFabricante"); // renderiza a página do fabricante
 });
 exports.app.post("/cadastro/fabricante", (req, res) => {
     const fabricante = req.body.fabricante;
     (0, fabricante_1.cadastroFabricante)(fabricante, req, res);
+});
+exports.app.get("/visualizar/fabricante", (req, res) => {
+    (0, fabricante_1.visualizarFabricante)(req, res);
 });
 exports.app.get("/cadastro/trecho", (req, res) => {
     res.render("cadastroTrecho");
@@ -87,12 +103,18 @@ exports.app.post("/cadastro/trecho", (req, res) => {
     const AeroportoChegada = req.body.idAeroportoChegada;
     (0, trecho_1.cadastroTrecho)(AeroportoSaida, AeroportoChegada, req, res);
 });
+exports.app.get("/voo", (req, res) => {
+    res.render("acaoVoo");
+});
 exports.app.get("/cadastro/voo", (req, res) => {
     res.render("cadastroVoo");
 });
 exports.app.post("/cadastro/voo", (req, res) => {
     const valor = req.body.valor;
     (0, voo_1.cadastroVoo)(valor, req, res);
+});
+exports.app.get("/visualizar/voo", (req, res) => {
+    (0, voo_1.visualizarVoos)(req, res);
 });
 // app.get("/editar/fabricante/:id", (req, res) => {
 //   const id = req.params.id;
@@ -105,12 +127,6 @@ exports.app.post("/cadastro/voo", (req, res) => {
 //     res.render("editFabricante", { fabricante });
 //   });
 // });
-// app.get("/visualizar/fabricante", (req, res) => {
-//   visualizarFabricante(req, res);
-// });
-// app.get("/visualizar/aeronave", (req, res) => {
-//   visualizaAeronave(req, res);
-// });
 // app.get("/editar/aeronave/:id", (req, res) => {
 //   const id = req.params.id;
 //   const sql = `select * from aeronave where idaeronave=${id}`;
@@ -121,13 +137,6 @@ exports.app.post("/cadastro/voo", (req, res) => {
 //     const aeronave = data;
 //     res.render("cadastroAeronave", { aeronave });
 //   });
-// });
-// app.get("/visualizar/aeroporto", (req, res) => {
-//   visualizaAeroporto(req, res);
-// });
-// app.use("/visualizar/voo", (req, res) => {
-//   const sql = "select * from voo";
-//   executaSql(sql);
 // });
 exports.app.use(express_1.default.static("public")); //configurando pra receber o css, definindo a pasta public como static
 exports.app.listen(3333, () => {

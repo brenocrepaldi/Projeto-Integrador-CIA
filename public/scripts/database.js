@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.executaSql = exports.cr = void 0;
+exports.selecionarSql = exports.inserirSql = exports.cr = void 0;
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
@@ -35,18 +35,41 @@ exports.cr = {
     message: "",
     payload: undefined,
 };
-async function executaSql(sql, dados, objeto) {
+async function inserirSql(sql, dados, objeto) {
     let conn = await oracledb_1.default.getConnection({
         user: process.env.ORACLE_USER,
         password: process.env.ORACLE_PASSWORD,
         connectionString: process.env.ORACLE_STR,
     });
-    let resInsert = await conn.execute(sql, dados);
+    let resSql = await conn.execute(sql, dados);
     await conn.commit();
-    const rowsInserted = resInsert.rowsAffected;
+    const rowsInserted = resSql.rowsAffected;
     if (rowsInserted !== undefined && rowsInserted === 1) {
         exports.cr.status = "SUCCESS";
-        exports.cr.message = `${objeto} inserido(a).`;
+        exports.cr.message = `Dado inserido para ${objeto}.`;
+    }
+    else if (rowsInserted === undefined) {
+        exports.cr.status = "SUCCESS";
+        exports.cr.message = `Nenhum dado inserido para ${objeto}.`;
     }
 }
-exports.executaSql = executaSql;
+exports.inserirSql = inserirSql;
+async function selecionarSql(sql, dados, objeto) {
+    try {
+        let conn = await oracledb_1.default.getConnection({
+            user: process.env.ORACLE_USER,
+            password: process.env.ORACLE_PASSWORD,
+            connectionString: process.env.ORACLE_STR,
+        });
+        let resSql = await conn.execute(sql, dados);
+        await conn.commit();
+        exports.cr.status = 'SUCCESS';
+        exports.cr.message = `Dados selecionados com sucesso para ${objeto}`;
+        return resSql.rows;
+    }
+    catch (e) {
+        exports.cr.status = 'ERRO';
+        exports.cr.message = `Erro na consulta SQL para ${objeto}: ${e}`;
+    }
+}
+exports.selecionarSql = selecionarSql;

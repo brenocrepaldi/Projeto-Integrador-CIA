@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql } from "./database";
+import { cr, inserirSql, selecionarSql } from "./database";
 
 export async function cadastroVoo(valor: number, req: Request, res: Response) {
   try {
@@ -10,7 +10,7 @@ export async function cadastroVoo(valor: number, req: Request, res: Response) {
    (SEQ_FABRICANTE.NEXTVAL, :1)`; // alterar tabela no banco
 
     const dados = [valor];
-    executaSql(sql, dados, objeto);
+    inserirSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -20,5 +20,30 @@ export async function cadastroVoo(valor: number, req: Request, res: Response) {
     }
   } finally {
     res.render("cadastroVoo");
+  }
+}
+
+export async function visualizarVoos(req: Request, res: Response) {
+  try {
+    const selectSql = `SELECT * FROM VOO`;
+
+    const result = await selecionarSql(selectSql, [], "Voos") as string[][];
+
+    let dados;
+    if (result) {
+      dados = result.map((item) => ({
+        idVoo: item[0],
+        aeroportoSaida: item[1],
+        aeroportoChegada: item[2],
+        valor: item[3],
+      }));
+    }
+    res.render("visualizarVoo", { voos: dados });
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log(e);
+    } else {
+      cr.message = "Erro ao conectar ao oracle. Sem detalhes";
+    }
   }
 }

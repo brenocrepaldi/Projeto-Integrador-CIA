@@ -7,7 +7,7 @@ async function cadastroTrecho(AeroportoSaida, AeroportoChegada, req, res) {
         let objeto = "Trecho";
         const sql = ``;
         const dados = [AeroportoSaida, AeroportoChegada];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.inserirSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
