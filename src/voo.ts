@@ -5,6 +5,8 @@ export async function cadastroVoo(
   valor: number,
   horaSaida: string,
   horaChegada: string,
+  dataSaida: string,
+  dataChegada: string,
   idTrecho: number,
   req: Request,
   res: Response
@@ -12,11 +14,11 @@ export async function cadastroVoo(
   try {
     let objeto = "Voo";
     const sql = `INSERT INTO VOO 
-   (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHAGADA, ID_TRECHO, ID_AERONAVE)
+   (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
    VALUES
-   (SEQ_VOO.NEXTVAL, :1, :2, :3. :4. :5)`;
+   (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
 
-    const dados = [valor];
+    const dados = [valor, horaSaida, horaChegada, idTrecho];
     inserirSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {

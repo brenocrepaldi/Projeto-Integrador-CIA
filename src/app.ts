@@ -148,32 +148,41 @@ app.post("/cadastro/trecho", (req, res) => {
 });
 
 app.get("/cadastro/voo", async (req, res) => {
-  const selectSql = `SELECT * FROM trecho`;
+  //TERMINAR
+  const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO_SAIDA`;
 
-  const result = (await selecionarSql(
-    selectSql,
-    [],
-    "Aeroportos"
-  )) as string[][];
+  const result = (await selecionarSql(selectSql, [], "Trechos")) as string[][];
 
   let dados;
 
   if (result) {
     dados = result.map((item) => ({
-      idAeroporto: item[0],
-      aeroporto: item[1],
-      cidade: item[2],
+      idTrecho: item[0],
+      aeroportoSaida: item[1],
     }));
   }
-  res.render("cadastroVoo");
+  console.log(dados);
+  res.render("cadastroVoo", { trechos: dados });
 });
 
 app.post("/cadastro/voo", (req, res) => {
   const valor = req.body.valor;
   const horaSaida = req.body.horaSaida;
   const horaChegada = req.body.horaChegada;
+  const dataSaida = req.body.dataSaida;
+  const dataChegada = req.body.dataChagada;
   const idTrecho = req.body.idTrecho;
-  cadastroVoo(valor, horaSaida, horaChegada, idTrecho, req, res);
+  console.log(horaSaida, dataSaida);
+  cadastroVoo(
+    valor,
+    horaSaida,
+    horaChegada,
+    idTrecho,
+    dataSaida,
+    dataChegada,
+    req,
+    res
+  );
 });
 
 app.get("/visualizar/voo", (req, res) => {
