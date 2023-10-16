@@ -3,11 +3,11 @@ import exphbs, { create } from "express-handlebars";
 import * as dotenv from "dotenv";
 
 import { cadastroAeronave, visualizarAeronaves } from "./aeronave";
-import { cadastroAeroporto, visualizarAeroportos} from "./aeroporto";
-import { cadastroFabricante , visualizarFabricante} from "./fabricante";
+import { cadastroAeroporto, visualizarAeroportos } from "./aeroporto";
+import { cadastroFabricante, visualizarFabricante } from "./fabricante";
 import { cadastroTrecho } from "./trecho";
 import { cadastroVoo, visualizarVoos } from "./voo";
-import { url } from "inspector";
+import { selecionarSql } from "./database";
 
 export const app = express();
 
@@ -37,32 +37,70 @@ app.get("/aeronave", (req, res) => {
   res.render("acaoAeronave");
 });
 
-app.get("/cadastro/aeronave", (req, res) => {
-  res.render("cadastroAeronave");
+app.get("/cadastro/aeronave", async (req, res) => {
+  const selectSql = `SELECT * FROM FABRICANTE`;
+
+  const result = (await selecionarSql(
+    selectSql,
+    [],
+    "Fabricantes"
+  )) as string[][];
+
+  let dados;
+
+  if (result) {
+    dados = result.map((item) => ({
+      nomeFabricante: item[1],
+      idFabricante: item[0],
+    }));
+  }
+  res.render("cadastroAeronave", { fabricante: dados });
 });
 
 app.post("/cadastro/aeronave", (req, res) => {
   const modelo = req.body.modelo;
   const numAssento = req.body.numAssento;
   const anoFabricacao = req.body.anoFabricacao;
-  cadastroAeronave(modelo, numAssento, anoFabricacao, req, res);
+  const registro = req.body.registro;
+  const status = req.body.status;
+  const idfabricante = req.body.idFabricante;
+
+  cadastroAeronave(
+    modelo,
+    numAssento,
+    anoFabricacao,
+    registro,
+    status,
+    idfabricante,
+    req,
+    res
+  );
+  console.log(status, idfabricante);
 });
 
 app.get("/visualizar/aeronave", (req, res) => {
   visualizarAeronaves(req, res);
 });
 
-app.get("/aeroporto", (req, res) => {
-  res.render("acaoAeroporto");
-});
+app.get("/cadastro/aeroporto", async (req, res) => {
+  const selectSql = `SELECT * FROM CIDADE`;
 
-app.get("/cadastro/aeroporto", (req, res) => {
-  res.render("cadastroAeroporto");
+  const result = (await selecionarSql(selectSql, [], "Cidades")) as string[][];
+
+  let dados;
+
+  if (result) {
+    dados = result.map((item) => ({
+      idCidade: item[0],
+      cidade: item[1],
+    }));
+  }
+  res.render("cadastroAeroporto", { cidades: dados });
 });
 
 app.post("/cadastro/aeroporto", (req, res) => {
   const aeroporto = req.body.aeroporto;
-  const cidade = req.body.cidade;
+  const cidade = req.body.idCidade;
   cadastroAeroporto(aeroporto, cidade, req, res);
 });
 
@@ -112,30 +150,6 @@ app.post("/cadastro/voo", (req, res) => {
 app.get("/visualizar/voo", (req, res) => {
   visualizarVoos(req, res);
 });
-
-// app.get("/editar/fabricante/:id", (req, res) => {
-//   const id = req.params.id;
-//   const sql = `select fabricante from fabricante where idfabricante=${id}`;
-//   connection.execute(sql, (err, data) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     const fabricante = data;
-//     res.render("editFabricante", { fabricante });
-//   });
-// });
-
-// app.get("/editar/aeronave/:id", (req, res) => {
-//   const id = req.params.id;
-//   const sql = `select * from aeronave where idaeronave=${id}`;
-//   connection.execute(sql, (err, data) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     const aeronave = data;
-//     res.render("cadastroAeronave", { aeronave });
-//   });
-// });
 
 app.use(express.static("public")); //configurando pra receber o css, definindo a pasta public como static
 

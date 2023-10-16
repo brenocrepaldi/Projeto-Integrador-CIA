@@ -13,8 +13,12 @@
         />
       </div>
       <div class="input">
-        <label for="cidade">Cidade</label>
-        <input type="text" name="cidade" placeholder="Insira a cidade" />
+        <label for="idCidade">Cidade</label>
+        <select name="idCidade">
+          {{#each cidades}}
+            <option value="{{this.idCidade}}">{{this.cidade}}</option>
+          {{/each}}
+        </select>
       </div>
     </div>
 

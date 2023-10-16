@@ -21,6 +21,10 @@
         />
       </div>
       <div class="input">
+        <label for="registro">registro</label>
+        <input type="text" name="registro" placeholder="Registro da aeronave" />
+      </div>
+      <div class="input">
         <label for="anoFabricacao">Ano de Fabricação</label>
         <input
           type="text"
@@ -29,10 +33,19 @@
         />
       </div>
       <div class="input">
+        <label for="status">Status</label>
+        <select name="status">
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+      </div>
+      <div class="input">
         <label for="idFabricante">Fabricante</label>
         <select name="idFabricante">
           {{#each fabricante}}
-            <option value="{{this.fabricante}}">{{this.fabricante}}</option>
+            <option
+              value="{{this.idFabricante}}"
+            >{{this.nomeFabricante}}</option>
           {{/each}}
         </select>
       </div>

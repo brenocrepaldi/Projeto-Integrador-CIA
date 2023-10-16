@@ -32,16 +32,22 @@ export async function visualizarFabricante(req: Request, res: Response) {
   try {
     const selectSql = `SELECT * FROM FABRICANTE`;
 
-    const result = await selecionarSql(selectSql, [], "Fabricantes") as string[][];
+    const result = (await selecionarSql(
+      selectSql,
+      [],
+      "Fabricantes"
+    )) as string[][];
 
     let dados;
+
     if (result) {
       dados = result.map((item) => ({
+        fabricante: item[1],
         idFabricante: item[0],
-        nomeFabricante: item[1]
       }));
     }
-    res.render("visualizarFabricante", { fabricantes: dados });
+
+    res.render("visualizarFabricante", { fabricante: dados });
   } catch (e) {
     if (e instanceof Error) {
       console.log(e);

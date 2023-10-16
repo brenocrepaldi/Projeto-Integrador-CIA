@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selecionarSql = exports.inserirSql = exports.cr = void 0;
+exports.excluirDados = exports.selecionarSql = exports.inserirSql = exports.cr = void 0;
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
@@ -62,14 +62,23 @@ async function selecionarSql(sql, dados, objeto) {
             connectionString: process.env.ORACLE_STR,
         });
         let resSql = await conn.execute(sql, dados);
-        await conn.commit();
-        exports.cr.status = 'SUCCESS';
+        exports.cr.status = "SUCCESS";
         exports.cr.message = `Dados selecionados com sucesso para ${objeto}`;
         return resSql.rows;
     }
     catch (e) {
-        exports.cr.status = 'ERRO';
+        exports.cr.status = "ERRO";
         exports.cr.message = `Erro na consulta SQL para ${objeto}: ${e}`;
     }
 }
 exports.selecionarSql = selecionarSql;
+async function excluirDados() {
+    document.querySelectorAll(".excluir").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const row = this.closest("tr");
+            const idFabricante = row.querySelector("td:first-child")?.textContent;
+            const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}';`;
+        });
+    });
+}
+exports.excluirDados = excluirDados;

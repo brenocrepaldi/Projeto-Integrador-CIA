@@ -5,12 +5,20 @@
   <form action="/cadastro/voo" method="POST" class="form">
     <div class="control-input">
       <div class="input">
-        <label for="valor">Preço</label>
+        <label for="valor">Valor Passagem</label>
         <input
           type="text"
           name="valor"
-          placeholder="Insira o modelo da aeronave"
+          placeholder="Insira o valor da passagem"
         />
+      </div>
+      <div class="input">
+        <label for="saida">Horário Saída</label>
+        <input type="text" name="saida" placeholder="Horário Saída" />
+      </div>
+      <div class="input">
+        <label for="chegada">Horário Chegada</label>
+        <input type="text" name="chegada" placeholder="Horário Chegada" />
       </div>
       <div class="input">
         <label for="idTrecho">Trecho</label>

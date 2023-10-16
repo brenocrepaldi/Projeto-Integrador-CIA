@@ -9,18 +9,24 @@
           <th>Código</th>
           <th>Modelo</th>
           <th>Assentos</th>
-          <th>Ano de fabricação</th>
+          <th>Registro</th>
+          <th>Status</th>
           <th>Fabricante</th>
+          <th>Ano de Fabricação</th>
+          <th>Número de assentos</th>
         </tr>
       </thead>
       <tbody>
         {{#each aeronaves}}
           <tr>
-            <td>{{this.idaeronave}}</td>
+            <td>{{this.idAeronave}}</td>
             <td>{{this.modelo}}</td>
-            <td>{{this.anofabricacao}}</td>
             <td>{{this.numassento}}</td>
-            {{!-- <td>{{this.fabricante}}</td> --}}
+            <td>{{this.registro}}</td>
+            <td>{{this.status}}</td>
+            <td>{{this.fabricante}}</td>
+            <td>{{this.anoFabricacao}}</td>
+            <td>{{this.numassento}}</td>
             <td class="button"><button>Editar</button></td>
             <td class="button"><button>Excluir</button></td>
           </tr>

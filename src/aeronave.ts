@@ -5,17 +5,27 @@ export async function cadastroAeronave(
   modelo: string,
   numAssento: number,
   anoFabricacao: number,
+  registro: string,
+  status: string,
+  idFabricante: string,
   req: Request,
   res: Response
 ) {
   try {
     const objeto = "Aeronave";
-    const sql = `INSERT INTO AERONAVES 
-   (ID_AERONAVE, MODELO, ANOFABRICACAO, NUM_ASSENTO)
+    const sql = `INSERT INTO AERONAVE 
+   (ID_AERONAVE, MODELO, NUM_ASSENTO,REGISTRO,STATUS,ANO_FABRICACAO,ID_FABRICANTE )
    VALUES
-   (SEQ_AERONAVES.NEXTVAL, :1, :2, :3)`;
+   (SEQ_AERONAVE.NEXTVAL, :1, :2, :3,:4,:5,:6)`;
 
-    const dados = [modelo, numAssento, anoFabricacao];
+    const dados = [
+      modelo,
+      numAssento,
+      registro,
+      status,
+      anoFabricacao,
+      idFabricante,
+    ];
     inserirSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
@@ -32,21 +42,28 @@ export async function cadastroAeronave(
 
 export async function visualizarAeronaves(req: Request, res: Response) {
   try {
-    const selectSql = `SELECT * FROM AERONAVES`;
+    const selectSql = `SELECT A.ID_AERONAVE,A.MODELO,A.NUM_ASSENTO,A.REGISTRO,A.STATUS,A.ANO_FABRICACAO,F.NOME_FABRICANTE FROM  AERONAVE A, FABRICANTE F WHERE A.ID_FABRICANTE = F.ID_FABRICANTE`;
 
-    const result = await selecionarSql(selectSql, [], "Aeronaves") as string[][];
+    const result = (await selecionarSql(
+      selectSql,
+      [],
+      "Aeronaves"
+    )) as string[][];
 
     let dados;
     if (result) {
       dados = result.map((item) => ({
-        idaeronave: item[0],
+        idAeronave: item[0],
         modelo: item[1],
-        anofabricacao: item[2],
-        numassento: item[3],
+        numassento: item[2],
+        registro: item[3],
+        status: item[4],
+        anoFabricacao: item[5],
+        fabricante: item[6],
       }));
-    };
-    res.render("visualizarAeronave", {aeronaves: dados});
+    }
 
+    res.render("visualizarAeronave", { aeronaves: dados });
   } catch (e) {
     if (e instanceof Error) {
       console.log(e);

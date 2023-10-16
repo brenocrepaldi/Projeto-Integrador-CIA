@@ -54,14 +54,23 @@ export async function selecionarSql(
 
     let resSql = await conn.execute(sql, dados);
 
-    await conn.commit();
-
-    cr.status = 'SUCCESS';
+    cr.status = "SUCCESS";
     cr.message = `Dados selecionados com sucesso para ${objeto}`;
 
     return resSql.rows;
   } catch (e) {
-    cr.status = 'ERRO';
+    cr.status = "ERRO";
     cr.message = `Erro na consulta SQL para ${objeto}: ${e}`;
   }
+}
+
+export async function excluirDados() {
+  document.querySelectorAll(".excluir").forEach(function (button) {
+    button.addEventListener("click", function (this: HTMLButtonElement) {
+      const row = this.closest("tr") as HTMLTableRowElement;
+      const idFabricante = row.querySelector("td:first-child")?.textContent;
+
+      const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}';`;
+    });
+  });
 }
