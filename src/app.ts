@@ -83,7 +83,7 @@ app.get("/visualizar/aeronave", (req, res) => {
 });
 
 app.get("/cadastro/aeroporto", async (req, res) => {
-  const selectSql = `SELECT * FROM CIDADE`;
+  const selectSql = `SELECT * FROM cidade`;
 
   const result = (await selecionarSql(selectSql, [], "Cidades")) as string[][];
 
@@ -95,6 +95,7 @@ app.get("/cadastro/aeroporto", async (req, res) => {
       cidade: item[1],
     }));
   }
+  console.log(dados);
   res.render("cadastroAeroporto", { cidades: dados });
 });
 
