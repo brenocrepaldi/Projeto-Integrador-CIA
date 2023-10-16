@@ -54,9 +54,6 @@ exports.app.set("views", "./views");
 exports.app.get("/home", (req, res) => {
     res.render("home");
 });
-exports.app.get("/aeronave", (req, res) => {
-    res.render("acaoAeronave");
-});
 exports.app.get("/cadastro/aeronave", async (req, res) => {
     const selectSql = `SELECT * FROM FABRICANTE`;
     const result = (await (0, database_1.selecionarSql)(selectSql, [], "Fabricantes"));
@@ -92,7 +89,6 @@ exports.app.get("/cadastro/aeroporto", async (req, res) => {
             cidade: item[1],
         }));
     }
-    console.log(dados);
     res.render("cadastroAeroporto", { cidades: dados });
 });
 exports.app.post("/cadastro/aeroporto", (req, res) => {
@@ -116,13 +112,23 @@ exports.app.post("/cadastro/fabricante", (req, res) => {
 exports.app.get("/visualizar/fabricante", (req, res) => {
     (0, fabricante_1.visualizarFabricante)(req, res);
 });
-exports.app.get("/cadastro/trecho", (req, res) => {
-    res.render("cadastroTrecho");
+exports.app.get("/cadastro/trecho", async (req, res) => {
+    const selectSql = `SELECT * FROM aeroporto`;
+    const result = (await (0, database_1.selecionarSql)(selectSql, [], "Aeroportos"));
+    let dados;
+    if (result) {
+        dados = result.map((item) => ({
+            idAeroporto: item[0],
+            aeroporto: item[1],
+            cidade: item[2],
+        }));
+    }
+    res.render("cadastroTrecho", { aeroportos: dados });
 });
 exports.app.post("/cadastro/trecho", (req, res) => {
-    const AeroportoSaida = req.body.idAeroportoSaida;
-    const AeroportoChegada = req.body.idAeroportoChegada;
-    (0, trecho_1.cadastroTrecho)(AeroportoSaida, AeroportoChegada, req, res);
+    const idAeroportoSaida = req.body.idAeroportoSaida;
+    const idAeroportoChegada = req.body.idAeroportoChegada;
+    (0, trecho_1.cadastroTrecho)(idAeroportoSaida, idAeroportoChegada, req, res);
 });
 exports.app.get("/voo", (req, res) => {
     res.render("acaoVoo");

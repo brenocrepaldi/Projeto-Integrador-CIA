@@ -2,11 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cadastroTrecho = void 0;
 const database_1 = require("./database");
-async function cadastroTrecho(AeroportoSaida, AeroportoChegada, req, res) {
+async function cadastroTrecho(idAeroportoSaida, idAeroportoChegada, req, res) {
     try {
         let objeto = "Trecho";
-        const sql = ``;
-        const dados = [AeroportoSaida, AeroportoChegada];
+        const sql = `
+    INSERT INTO TRECHO
+      (ID_TRECHO, ID_AEROPORTO_SAIDA, ID_AEROPORTO_CHEGADA)
+    VALUES
+      (SEQ_TRECHO.NEXTVAL, :1, :2)`;
+        const dados = [idAeroportoSaida, idAeroportoChegada];
+        console.log(dados);
         (0, database_1.inserirSql)(sql, dados, objeto);
     }
     catch (e) {

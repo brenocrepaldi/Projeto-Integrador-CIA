@@ -33,10 +33,6 @@ app.get("/home", (req, res) => {
   res.render("home");
 });
 
-app.get("/aeronave", (req, res) => {
-  res.render("acaoAeronave");
-});
-
 app.get("/cadastro/aeronave", async (req, res) => {
   const selectSql = `SELECT * FROM FABRICANTE`;
 
@@ -95,7 +91,6 @@ app.get("/cadastro/aeroporto", async (req, res) => {
       cidade: item[1],
     }));
   }
-  console.log(dados);
   res.render("cadastroAeroporto", { cidades: dados });
 });
 
@@ -125,27 +120,60 @@ app.get("/visualizar/fabricante", (req, res) => {
   visualizarFabricante(req, res);
 });
 
-app.get("/cadastro/trecho", (req, res) => {
-  res.render("cadastroTrecho");
+app.get("/cadastro/trecho", async (req, res) => {
+  const selectSql = `SELECT * FROM aeroporto`;
+
+  const result = (await selecionarSql(
+    selectSql,
+    [],
+    "Aeroportos"
+  )) as string[][];
+
+  let dados;
+
+  if (result) {
+    dados = result.map((item) => ({
+      idAeroporto: item[0],
+      aeroporto: item[1],
+      cidade: item[2],
+    }));
+  }
+  res.render("cadastroTrecho", { aeroportos: dados });
 });
 
 app.post("/cadastro/trecho", (req, res) => {
-  const AeroportoSaida = req.body.idAeroportoSaida;
-  const AeroportoChegada = req.body.idAeroportoChegada;
-  cadastroTrecho(AeroportoSaida, AeroportoChegada, req, res);
+  const idAeroportoSaida = req.body.idAeroportoSaida;
+  const idAeroportoChegada = req.body.idAeroportoChegada;
+  cadastroTrecho(idAeroportoSaida, idAeroportoChegada, req, res);
 });
 
-app.get("/voo", (req, res) => {
-  res.render("acaoVoo");
-});
+app.get("/cadastro/voo", async (req, res) => {
+  const selectSql = `SELECT * FROM trecho`;
 
-app.get("/cadastro/voo", (req, res) => {
+  const result = (await selecionarSql(
+    selectSql,
+    [],
+    "Aeroportos"
+  )) as string[][];
+
+  let dados;
+
+  if (result) {
+    dados = result.map((item) => ({
+      idAeroporto: item[0],
+      aeroporto: item[1],
+      cidade: item[2],
+    }));
+  }
   res.render("cadastroVoo");
 });
 
 app.post("/cadastro/voo", (req, res) => {
   const valor = req.body.valor;
-  cadastroVoo(valor, req, res);
+  const horaSaida = req.body.horaSaida;
+  const horaChegada = req.body.horaChegada;
+  const idTrecho = req.body.idTrecho;
+  cadastroVoo(valor, horaSaida, horaChegada, idTrecho, req, res);
 });
 
 app.get("/visualizar/voo", (req, res) => {

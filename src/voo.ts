@@ -1,13 +1,20 @@
 import { Request, Response } from "express";
 import { cr, inserirSql, selecionarSql } from "./database";
 
-export async function cadastroVoo(valor: number, req: Request, res: Response) {
+export async function cadastroVoo(
+  valor: number,
+  horaSaida: string,
+  horaChegada: string,
+  idTrecho: number,
+  req: Request,
+  res: Response
+) {
   try {
     let objeto = "Voo";
     const sql = `INSERT INTO VOO 
-   (ID_VOO, VALOR)
+   (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHAGADA, ID_TRECHO, ID_AERONAVE)
    VALUES
-   (SEQ_FABRICANTE.NEXTVAL, :1)`; // alterar tabela no banco
+   (SEQ_VOO.NEXTVAL, :1, :2, :3. :4. :5)`;
 
     const dados = [valor];
     inserirSql(sql, dados, objeto);
@@ -27,7 +34,7 @@ export async function visualizarVoos(req: Request, res: Response) {
   try {
     const selectSql = `SELECT * FROM VOO`;
 
-    const result = await selecionarSql(selectSql, [], "Voos") as string[][];
+    const result = (await selecionarSql(selectSql, [], "Voos")) as string[][];
 
     let dados;
     if (result) {

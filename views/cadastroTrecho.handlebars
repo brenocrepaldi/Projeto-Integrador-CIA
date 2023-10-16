@@ -1,20 +1,24 @@
-<div class="container-trecho">
-  <div class="header-trecho">
+<div class="container-cadastro">
+  <div class="header-cadastro">
     <h1>Cadastro de Trechos</h1>
   </div>
   <form action="/cadastro/trecho" method="POST" class="form">
     <div class="control-input">
       <div class="input">
-        <label for="iAeroportoSaida">Aeroporto Saida</label>
-        <input
-          type="text"
-          name="idAeroportoSaida"
-          placeholder="Insira o nome do aeroporto de saída"
-        />
+        <label for="idAeroportoSaida">Aeroporto de Saída</label>
+        <select name="idAeroportoSaida">
+          {{#each aeroportos}}
+            <option value="{{this.idAeroporto}}">{{this.aeroporto}}</option>
+          {{/each}}
+        </select>
       </div>
       <div class="input">
-        <label for="idAeroportoChegada">Aeroporto Chegada</label>
-        <input type="text" name="idAeroportoChegada" placeholder="Insira o aeroporto de chegada" />
+        <label for="idAeroportoChagada">Aeroporto de Chegada</label>
+        <select name="idAeroportoChegada">
+          {{#each aeroportos}}
+            <option value="{{this.idAeroporto}}">{{this.aeroporto}}</option>
+          {{/each}}
+        </select>
       </div>
     </div>
 

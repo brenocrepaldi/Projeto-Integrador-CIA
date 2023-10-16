@@ -6,11 +6,11 @@ async function cadastroAeroporto(aeroporto, cidade, req, res) {
     try {
         const objeto = "Aeroporto";
         const sql = `
-    INSERT INTO AEROPORTOS 
-    (ID_AEROPORTO, NOME_AEROPORTO, CIDADE) 
+    INSERT INTO AEROPORTO
+    (ID_AEROPORTO, NOME_AEROPORTO, ID_CIDADE) 
     VALUES
-    (SEQ_AEROPORTOS.NEXTVAL, :1, :2)
-    `; // alterar as tabelas no banco
+    (SEQ_AEROPORTO.NEXTVAL, :1, :2)
+    `;
         const dados = [aeroporto, cidade];
         (0, database_1.inserirSql)(sql, dados, objeto);
     }
@@ -32,16 +32,15 @@ exports.cadastroAeroporto = cadastroAeroporto;
 async function visualizarAeroportos(req, res) {
     try {
         const selectSql = `SELECT * FROM AEROPORTOS`;
-        const result = await (0, database_1.selecionarSql)(selectSql, [], "Aeroportos");
+        const result = (await (0, database_1.selecionarSql)(selectSql, [], "Aeroportos"));
         let dados;
         if (result) {
             dados = result.map((item) => ({
                 idAeroporto: item[0],
                 nomeAeroporto: item[1],
-                cidade: item[2]
+                cidade: item[2],
             }));
         }
-        ;
         res.render("visualizarAeroporto", { aeroportos: dados });
     }
     catch (e) {

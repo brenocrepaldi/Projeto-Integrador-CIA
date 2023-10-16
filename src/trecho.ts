@@ -2,17 +2,22 @@ import { Request, Response } from "express";
 import { cr, inserirSql } from "./database";
 
 export async function cadastroTrecho(
-  AeroportoSaida: string,
-  AeroportoChegada: string,
+  idAeroportoSaida: number,
+  idAeroportoChegada: number,
   req: Request,
   res: Response
 ) {
   try {
     let objeto = "Trecho";
 
-    const sql = ``;
+    const sql = `
+    INSERT INTO TRECHO
+      (ID_TRECHO, ID_AEROPORTO_SAIDA, ID_AEROPORTO_CHEGADA)
+    VALUES
+      (SEQ_TRECHO.NEXTVAL, :1, :2)`;
 
-    const dados = [AeroportoSaida, AeroportoChegada];
+    const dados = [idAeroportoSaida, idAeroportoChegada];
+    console.log(dados);
     inserirSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
