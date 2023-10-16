@@ -42,7 +42,8 @@ export async function cadastroAeronave(
 
 export async function visualizarAeronaves(req: Request, res: Response) {
   try {
-    const selectSql = `SELECT A.ID_AERONAVE,A.MODELO,A.NUM_ASSENTO,A.REGISTRO,A.STATUS,A.ANO_FABRICACAO,F.NOME_FABRICANTE FROM  AERONAVE A, FABRICANTE F WHERE A.ID_FABRICANTE = F.ID_FABRICANTE`;
+    const selectSql = `
+    SELECT A.ID_AERONAVE, A.MODELO, A.NUM_ASSENTO, A.REGISTRO, A.STATUS, A.ANO_FABRICACAO, F.NOME_FABRICANTE FROM  AERONAVE A, FABRICANTE F WHERE A.ID_FABRICANTE = F.ID_FABRICANTE ORDER BY A.ID_AERONAVE`;
 
     const result = (await selecionarSql(
       selectSql,

@@ -5,10 +5,11 @@ const database_1 = require("./database");
 async function cadastroVoo(valor, horaSaida, horaChegada, dataSaida, dataChegada, idTrecho, req, res) {
     try {
         let objeto = "Voo";
-        const sql = `INSERT INTO VOO 
-   (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
-   VALUES
-   (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
+        const sql = `
+    INSERT INTO VOO 
+      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
+    VALUES
+      (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [valor, horaSaida, horaChegada, idTrecho];
         (0, database_1.inserirSql)(sql, dados, objeto);
     }
@@ -34,9 +35,11 @@ async function visualizarVoos(req, res) {
         if (result) {
             dados = result.map((item) => ({
                 idVoo: item[0],
-                aeroportoSaida: item[1],
-                aeroportoChegada: item[2],
-                valor: item[3],
+                valor: item[1],
+                horaSaida: item[2],
+                horaChegada: item[3],
+                idTrecho: item[4],
+                idaeronave: item[5], //MUDAR
             }));
         }
         res.render("visualizarVoo", { voos: dados });

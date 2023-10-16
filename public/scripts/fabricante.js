@@ -28,16 +28,16 @@ async function cadastroFabricante(fabricante, req, res) {
 exports.cadastroFabricante = cadastroFabricante;
 async function visualizarFabricante(req, res) {
     try {
-        const selectSql = `SELECT * FROM FABRICANTE`;
+        const selectSql = `SELECT * FROM FABRICANTE ORDER BY ID_FABRICANTE`;
         const result = (await (0, database_1.selecionarSql)(selectSql, [], "Fabricantes"));
         let dados;
         if (result) {
             dados = result.map((item) => ({
-                fabricante: item[1],
                 idFabricante: item[0],
+                nomeFabricante: item[1],
             }));
         }
-        res.render("visualizarFabricante", { fabricante: dados });
+        res.render("visualizarFabricante", { fabricantes: dados });
     }
     catch (e) {
         if (e instanceof Error) {

@@ -131,16 +131,20 @@ exports.app.post("/cadastro/trecho", (req, res) => {
     (0, trecho_1.cadastroTrecho)(idAeroportoSaida, idAeroportoChegada, req, res);
 });
 exports.app.get("/cadastro/voo", async (req, res) => {
-    const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO_SAIDA`;
+    //TERMINAR
+    const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO`;
+    // const selectSql = `
+    //   SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO;
+    // `;
     const result = (await (0, database_1.selecionarSql)(selectSql, [], "Trechos"));
     let dados;
     if (result) {
         dados = result.map((item) => ({
             idTrecho: item[0],
             aeroportoSaida: item[1],
+            //aeroportoChegada: item[2],
         }));
     }
-    console.log(dados);
     res.render("cadastroVoo", { trechos: dados });
 });
 exports.app.post("/cadastro/voo", (req, res) => {
@@ -150,7 +154,6 @@ exports.app.post("/cadastro/voo", (req, res) => {
     const dataSaida = req.body.dataSaida;
     const dataChegada = req.body.dataChagada;
     const idTrecho = req.body.idTrecho;
-    console.log(horaSaida, dataSaida);
     (0, voo_1.cadastroVoo)(valor, horaSaida, horaChegada, idTrecho, dataSaida, dataChegada, req, res);
 });
 exports.app.get("/visualizar/voo", (req, res) => {

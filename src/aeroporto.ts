@@ -33,7 +33,7 @@ export async function cadastroAeroporto(
 
 export async function visualizarAeroportos(req: Request, res: Response) {
   try {
-    const selectSql = `SELECT * FROM AEROPORTOS`;
+    const selectSql = `SELECT A.ID_AEROPORTO, A.NOME_AEROPORTO, C.NOME_CIDADE FROM AEROPORTO A, CIDADE C WHERE A.ID_CIDADE = C.ID_CIDADE ORDER BY A.ID_AEROPORTO`;
 
     const result = (await selecionarSql(
       selectSql,
@@ -49,6 +49,7 @@ export async function visualizarAeroportos(req: Request, res: Response) {
         cidade: item[2],
       }));
     }
+    console.log(dados);
     res.render("visualizarAeroporto", { aeroportos: dados });
   } catch (e) {
     if (e instanceof Error) {

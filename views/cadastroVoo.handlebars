@@ -12,18 +12,18 @@
           placeholder="Insira o valor da passagem"
         />
       </div>
-      <div class="input">
+      {{!-- <div class="input">
         <label for="dataSaida">Data de Saída</label>
         <input type="date" name="dataSaida" placeholder="Horário Saída" />
-      </div>
+      </div> --}}
       <div class="input">
         <label for="horaSaida">Horário Saída</label>
         <input type="time" name="horaSaida" placeholder="Horário Saída" />
       </div>
-      <div class="input">
+      {{!-- <div class="input">
         <label for="dataChegada">Data de Chegada</label>
         <input type="date" name="dataChegada" placeholder="Horário Chegada" />
-      </div>
+      </div> --}}
       <div class="input">
         <label for="horaChegada">Horário Chegada</label>
         <input type="time" name="horaChegada" placeholder="Horário Chegada" />
@@ -33,8 +33,8 @@
         <select name="idTrecho">
           {{#each trechos}}
             <option
-              value="{{this.aeroportoSaida}}"
-            >{{this.aeroportoSaida}}</option>
+              value="{{this.idTrecho}}"
+            >{{this.aeroportoSaida}} para {{this.aeroportoChegada}}</option>
           {{/each}}
         </select>
       </div>

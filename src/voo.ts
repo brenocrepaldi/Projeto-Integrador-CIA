@@ -13,10 +13,11 @@ export async function cadastroVoo(
 ) {
   try {
     let objeto = "Voo";
-    const sql = `INSERT INTO VOO 
-   (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
-   VALUES
-   (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
+    const sql = `
+    INSERT INTO VOO 
+      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
+    VALUES
+      (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
 
     const dados = [valor, horaSaida, horaChegada, idTrecho];
     inserirSql(sql, dados, objeto);
@@ -42,9 +43,11 @@ export async function visualizarVoos(req: Request, res: Response) {
     if (result) {
       dados = result.map((item) => ({
         idVoo: item[0],
-        aeroportoSaida: item[1],
-        aeroportoChegada: item[2],
-        valor: item[3],
+        valor: item[1],
+        horaSaida: item[2],
+        horaChegada: item[3],
+        idTrecho: item[4],
+        idaeronave: item[5],    //MUDAR
       }));
     }
     res.render("visualizarVoo", { voos: dados });
