@@ -82,16 +82,15 @@ exports.app.post("/excluir/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
     const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
     try {
-        const rowsAffected = await (0, database_1.excluirSql)(sql);
-        res.json({
-            status: "SUCCESS",
-            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
-        });
+        await (0, database_1.excluirSql)(sql);
     }
     catch (error) {
         res
             .status(500)
             .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+    }
+    finally {
+        res.redirect("/visualizar/aeronave");
     }
 });
 exports.app.get("/cadastro/aeroporto", async (req, res) => {
@@ -118,16 +117,16 @@ exports.app.post("/excluir/aeroporto/:id", async (req, res) => {
     const idAeroporto = req.params.id;
     const sql = `DELETE FROM AEROPORTO WHERE ID_AEROPORTO='${idAeroporto}'`;
     try {
-        const rowsAffected = await (0, database_1.excluirSql)(sql);
-        res.json({
-            status: "SUCCESS",
-            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
-        });
+        await (0, database_1.excluirSql)(sql);
     }
     catch (error) {
         res
             .status(500)
             .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+        return;
+    }
+    finally {
+        res.redirect("/visualizar/aeroporto");
     }
 });
 exports.app.get("/fabricante", (req, res) => {
@@ -143,20 +142,32 @@ exports.app.post("/cadastro/fabricante", (req, res) => {
 exports.app.get("/visualizar/fabricante", (req, res) => {
     (0, fabricante_1.visualizarFabricante)(req, res);
 });
+exports.app.get("/editar/fabricante/:id", async (req, res) => {
+    const idFabricante = req.params.id;
+    const sql = `SELECT * FROM FABRICANTE WHERE ID_FABRICANTE = '${idFabricante}'`;
+    const result = (await (0, database_1.selecionarSql)(sql, [], "Fabricantes"));
+    let dados;
+    if (result) {
+        dados = result.map((item) => ({
+            idFabricante: item[0],
+            nomeFabricante: item[1],
+        }));
+    }
+    res.render("editFabricante", { fabricante: dados });
+});
 exports.app.post("/excluir/fabricante/:id", async (req, res) => {
     const idFabricante = req.params.id;
     const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}'`;
     try {
-        const rowsAffected = await (0, database_1.excluirSql)(sql);
-        res.json({
-            status: "SUCCESS",
-            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
-        });
+        await (0, database_1.excluirSql)(sql);
     }
     catch (error) {
         res
             .status(500)
             .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+    }
+    finally {
+        res.redirect("/visualizar/fabricante");
     }
 });
 exports.app.get("/cadastro/trecho", async (req, res) => {

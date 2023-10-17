@@ -1,23 +1,27 @@
 <div class="container-cadastro">
   <div class="header-cadastro">
-    <h1>Edite o Fabricante</h1>
+    <h1>Cadastro de Fabricante</h1>
   </div>
-  <form action="/cadastro/fabricante" method="POST" class="form">
-    <div class="control-input">
-      <div class="input">
-        <label for="fabricante">Fabricante</label>
-        <select name="idFabricante">
-          {{#each fabricante}}
-            <option value="{{this.fabricante}}">{{this.fabricante}}</option>
-          {{/each}}
-        </select>
+  {{#each fabricante}}
+    <form action="/editar/fabricante/{{this.idFabricante}}" method="POST">
+      <div class="control-input">
+
+        <div class="input">
+          <label for="fabricante">Fabricante</label>
+          <input
+            type="text"
+            name="fabricante"
+            placeholder="Insira o nome do fabricante"
+            value="{{this.nomeFabricante}}"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="control-button">
-      <button type="submit">Editar</button>
-      <button type="reset">Excluir</button>
-    </div>
+      <div class="control-button">
+        <button type="submit">Cadastrar</button>
+        <button type="reset">Limpar</button>
+      </div>
 
-  </form>
+    </form>
+  {{/each}}
 </div>
