@@ -74,10 +74,25 @@ exports.app.post("/cadastro/aeronave", (req, res) => {
     const status = req.body.status;
     const idfabricante = req.body.idFabricante;
     (0, aeronave_1.cadastroAeronave)(modelo, numAssento, anoFabricacao, registro, status, idfabricante, req, res);
-    console.log(status, idfabricante);
 });
 exports.app.get("/visualizar/aeronave", (req, res) => {
     (0, aeronave_1.visualizarAeronaves)(req, res);
+});
+exports.app.post("/excluir/aeronave/:id", async (req, res) => {
+    const idAeronave = req.params.id;
+    const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
+    try {
+        const rowsAffected = await (0, database_1.excluirSql)(sql);
+        res.json({
+            status: "SUCCESS",
+            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
+        });
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+    }
 });
 exports.app.get("/cadastro/aeroporto", async (req, res) => {
     const selectSql = `SELECT * FROM cidade`;
@@ -99,6 +114,22 @@ exports.app.post("/cadastro/aeroporto", (req, res) => {
 exports.app.get("/visualizar/aeroporto", (req, res) => {
     (0, aeroporto_1.visualizarAeroportos)(req, res);
 });
+exports.app.post("/excluir/aeroporto/:id", async (req, res) => {
+    const idAeroporto = req.params.id;
+    const sql = `DELETE FROM AEROPORTO WHERE ID_AEROPORTO='${idAeroporto}'`;
+    try {
+        const rowsAffected = await (0, database_1.excluirSql)(sql);
+        res.json({
+            status: "SUCCESS",
+            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
+        });
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+    }
+});
 exports.app.get("/fabricante", (req, res) => {
     res.render("acaoFabricante");
 });
@@ -111,6 +142,22 @@ exports.app.post("/cadastro/fabricante", (req, res) => {
 });
 exports.app.get("/visualizar/fabricante", (req, res) => {
     (0, fabricante_1.visualizarFabricante)(req, res);
+});
+exports.app.post("/excluir/fabricante/:id", async (req, res) => {
+    const idFabricante = req.params.id;
+    const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}'`;
+    try {
+        const rowsAffected = await (0, database_1.excluirSql)(sql);
+        res.json({
+            status: "SUCCESS",
+            message: `Registro excluído com sucesso. Linhas afetadas: ${rowsAffected}`,
+        });
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
+    }
 });
 exports.app.get("/cadastro/trecho", async (req, res) => {
     const selectSql = `SELECT * FROM aeroporto`;
@@ -131,7 +178,7 @@ exports.app.post("/cadastro/trecho", (req, res) => {
     (0, trecho_1.cadastroTrecho)(idAeroportoSaida, idAeroportoChegada, req, res);
 });
 exports.app.get("/cadastro/voo", async (req, res) => {
-    //TERMINAR
+    // ARRUMAR
     const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO`;
     // const selectSql = `
     //   SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO;

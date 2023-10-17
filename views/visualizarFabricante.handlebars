@@ -12,11 +12,17 @@
       </thead>
       <tbody>
         {{#each fabricantes}}
-          <tr>
+          <tr data-id="{{this.idFabricante}}">
             <td>{{this.idFabricante}}</td>
             <td>{{this.nomeFabricante}}</td>
-            <td class="button"><button>Editar</button></td>
-            <td class="button"><button>Excluir</button></td>
+            <td class="button"><button><a
+                  href="/editar/fabricante/{{this.idFabricante}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/fabricante/{{this.idFabricante}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
           </tr>
         {{/each}}
       </tbody>

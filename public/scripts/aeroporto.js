@@ -41,7 +41,6 @@ async function visualizarAeroportos(req, res) {
                 cidade: item[2],
             }));
         }
-        console.log(dados);
         res.render("visualizarAeroporto", { aeroportos: dados });
     }
     catch (e) {

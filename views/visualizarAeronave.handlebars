@@ -27,8 +27,15 @@
             <td>{{this.fabricante}}</td>
             <td>{{this.anoFabricacao}}</td>
             <td>{{this.numassento}}</td>
-            <td class="button"><button>Editar</button></td>
-            <td class="button"><button>Excluir</button></td>
+            <td class="button"><button><a
+                  href="/editar/aeronave/{{this.idAeronave}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/aeronave/{{this.idAeronave}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
+          </tr>
           </tr>
         {{/each}}
       </tbody>

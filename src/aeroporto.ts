@@ -49,7 +49,6 @@ export async function visualizarAeroportos(req: Request, res: Response) {
         cidade: item[2],
       }));
     }
-    console.log(dados);
     res.render("visualizarAeroporto", { aeroportos: dados });
   } catch (e) {
     if (e instanceof Error) {

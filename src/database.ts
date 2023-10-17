@@ -1,5 +1,6 @@
 import oracledb, { Connection, ConnectionAttributes } from "oracledb";
 import * as dotenv from "dotenv";
+import e from "express";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ export let cr: CustomResponse = {
 export async function inserirSql(
   sql: string,
   dados: Array<any>,
-  objeto: string
+  tabela: string
 ) {
   let conn = await oracledb.getConnection({
     user: process.env.ORACLE_USER,
@@ -33,17 +34,17 @@ export async function inserirSql(
   const rowsInserted = resSql.rowsAffected;
   if (rowsInserted !== undefined && rowsInserted === 1) {
     cr.status = "SUCCESS";
-    cr.message = `Dado inserido para ${objeto}.`;
+    cr.message = `Dado inserido para ${tabela}.`;
   } else if (rowsInserted === undefined) {
     cr.status = "SUCCESS";
-    cr.message = `Nenhum dado inserido para ${objeto}.`;
+    cr.message = `Nenhum dado inserido para ${tabela}.`;
   }
 }
 
 export async function selecionarSql(
   sql: string,
   dados: Array<any>,
-  objeto: string
+  tabela: string
 ) {
   try {
     let conn = await oracledb.getConnection({
@@ -55,24 +56,47 @@ export async function selecionarSql(
     let resSql = await conn.execute(sql, dados);
 
     cr.status = "SUCCESS";
-    cr.message = `Dados selecionados com sucesso para ${objeto}`;
+    cr.message = `Dados selecionados com sucesso para ${tabela}`;
 
     return resSql.rows;
   } catch (e) {
     cr.status = "ERRO";
-    cr.message = `Erro na consulta SQL para ${objeto}: ${e}`;
+    cr.message = `Erro na consulta SQL para ${tabela}: ${e}`;
   }
 }
 
-export async function excluirDados() {
-  document.querySelectorAll(".excluir").forEach(function (button) {
-    button.addEventListener("click", function (this: HTMLButtonElement) {
-      const row = this.closest("tr") as HTMLTableRowElement;
-      const idFabricante = row.querySelector("td:first-child")?.textContent;
-
-      const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}';`;
+export async function excluirSql(sql: string) {
+  try {
+    let conn = await oracledb.getConnection({
+      user: process.env.ORACLE_USER,
+      password: process.env.ORACLE_PASSWORD,
+      connectString: process.env.ORACLE_STR,
     });
-  });
+
+    const result = await conn.execute(sql);
+    await conn.commit();
+
+    console.log("Exclusão SQL executada com sucesso");
+    return result.rowsAffected; // Retorna a quantidade de linhas afetadas
+  } catch (e) {
+    console.error("Erro na exclusão SQL:", e);
+    throw e; // Lança o erro para ser tratado na rota Express
+  }
 }
+//   try {
+//     let conn = await oracledb.getConnection({
+//       user: process.env.ORACLE_USER,
+//       password: process.env.ORACLE_PASSWORD,
+//       connectionString: process.env.ORACLE_STR,
+//     });
+//     await conn.execute(sql);
+//     await conn.commit();
+//     cr.status = "SUCCESS";
+//     cr.message = `Dados selecionados com sucesso para`;
 
-
+//     return console.log("Executou");
+//   } catch (e) {
+//     cr.status = "ERRO";
+//     cr.message = `Erro na consulta SQL para: ${e}`;
+//   }
+// }

@@ -19,8 +19,15 @@
             <td>{{this.aeroportoSaida}}</td>
             <td>{{this.aeroportoChegada}}</td>
             <td>{{this.valor}}</td>
-            <td class="button"><button>Editar</button></td>
-            <td class="button"><button>Excluir</button></td>
+            <td class="button"><button><a
+                  href="/editar/voo/{{this.idVoo}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/voo/{{this.idVoo}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
+          </tr>
           </tr>
         {{/each}}
       </tbody>
