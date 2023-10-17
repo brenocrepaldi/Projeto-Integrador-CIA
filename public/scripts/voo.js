@@ -11,7 +11,7 @@ async function cadastroVoo(valor, horaSaida, horaChegada, dataSaida, dataChegada
     VALUES
       (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [valor, horaSaida, horaChegada, idTrecho];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.executarSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -30,7 +30,7 @@ exports.cadastroVoo = cadastroVoo;
 async function visualizarVoos(req, res) {
     try {
         const selectSql = `SELECT * FROM VOO`;
-        const result = (await (0, database_1.selecionarSql)(selectSql, [], "Voos"));
+        const result = (await (0, database_1.retornarDados)(selectSql, [], "Voos"));
         let dados;
         if (result) {
             dados = result.map((item) => ({

@@ -5,12 +5,14 @@ const database_1 = require("./database");
 async function cadastroFabricante(fabricante, req, res) {
     try {
         let objeto = "Fabricante";
-        const sql = `INSERT INTO FABRICANTE 
-   (ID_FABRICANTE, NOME_FABRICANTE)
-   VALUES
-   (SEQ_FABRICANTE.NEXTVAL, :1)`;
+        const sql = `
+    INSERT INTO FABRICANTE 
+      (ID_FABRICANTE, NOME_FABRICANTE)
+    VALUES
+      (SEQ_FABRICANTE.NEXTVAL, :1)
+    `;
         const dados = [fabricante];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.executarSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -30,7 +32,7 @@ exports.cadastroFabricante = cadastroFabricante;
 async function visualizarFabricante(req, res) {
     try {
         const selectSql = `SELECT * FROM FABRICANTE ORDER BY ID_FABRICANTE`;
-        const result = (await (0, database_1.selecionarSql)(selectSql, [], "Fabricantes"));
+        const result = (await (0, database_1.retornarDados)(selectSql, [], "Fabricantes"));
         let dados;
         if (result) {
             dados = result.map((item) => ({

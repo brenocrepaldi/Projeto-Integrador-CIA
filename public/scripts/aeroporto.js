@@ -12,7 +12,7 @@ async function cadastroAeroporto(aeroporto, cidade, req, res) {
     (SEQ_AEROPORTO.NEXTVAL, :1, :2)
     `;
         const dados = [aeroporto, cidade];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.executarSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -32,7 +32,7 @@ exports.cadastroAeroporto = cadastroAeroporto;
 async function visualizarAeroportos(req, res) {
     try {
         const selectSql = `SELECT A.ID_AEROPORTO, A.NOME_AEROPORTO, C.NOME_CIDADE FROM AEROPORTO A, CIDADE C WHERE A.ID_CIDADE = C.ID_CIDADE ORDER BY A.ID_AEROPORTO`;
-        const result = (await (0, database_1.selecionarSql)(selectSql, [], "Aeroportos"));
+        const result = (await (0, database_1.retornarDados)(selectSql, [], "Aeroportos"));
         let dados;
         if (result) {
             dados = result.map((item) => ({

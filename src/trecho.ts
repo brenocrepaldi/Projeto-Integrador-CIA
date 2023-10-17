@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql } from "./database";
+import { cr, executarSql } from "./database";
 
 export async function cadastroTrecho(
   idAeroportoSaida: number,
@@ -18,7 +18,7 @@ export async function cadastroTrecho(
 
     const dados = [idAeroportoSaida, idAeroportoChegada];
     console.log(dados);
-    executaSql(sql, dados, objeto);
+    executarSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

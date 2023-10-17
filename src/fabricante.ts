@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql, selecionarSql } from "./database";
+import { cr, executarSql, retornarDados } from "./database";
 
 export async function cadastroFabricante(
   fabricante: string,
@@ -9,13 +9,17 @@ export async function cadastroFabricante(
   try {
     let objeto = "Fabricante";
 
-    const sql = `INSERT INTO FABRICANTE 
-   (ID_FABRICANTE, NOME_FABRICANTE)
-   VALUES
-   (SEQ_FABRICANTE.NEXTVAL, :1)`;
+    const sql = `
+    INSERT INTO FABRICANTE 
+      (ID_FABRICANTE, NOME_FABRICANTE)
+    VALUES
+      (SEQ_FABRICANTE.NEXTVAL, :1)
+    `;
 
     const dados = [fabricante];
-    executaSql(sql, dados, objeto);
+
+    executarSql(sql, dados, objeto);
+
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -33,7 +37,7 @@ export async function visualizarFabricante(req: Request, res: Response) {
   try {
     const selectSql = `SELECT * FROM FABRICANTE ORDER BY ID_FABRICANTE`;
 
-    const result = (await selecionarSql(
+    const result = (await retornarDados(
       selectSql,
       [],
       "Fabricantes"

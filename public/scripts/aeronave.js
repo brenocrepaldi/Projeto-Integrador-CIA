@@ -17,7 +17,7 @@ async function cadastroAeronave(modelo, numAssento, anoFabricacao, registro, sta
             anoFabricacao,
             idFabricante,
         ];
-        (0, database_1.executaSql)(sql, dados, objeto);
+        (0, database_1.executarSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
@@ -38,7 +38,7 @@ async function visualizarAeronaves(req, res) {
     try {
         const selectSql = `
     SELECT A.ID_AERONAVE, A.MODELO, A.NUM_ASSENTO, A.REGISTRO, A.STATUS, A.ANO_FABRICACAO, F.NOME_FABRICANTE FROM  AERONAVE A, FABRICANTE F WHERE A.ID_FABRICANTE = F.ID_FABRICANTE ORDER BY A.ID_AERONAVE`;
-        const result = (await (0, database_1.selecionarSql)(selectSql, [], "Aeronaves"));
+        const result = (await (0, database_1.retornarDados)(selectSql, [], "Aeronaves"));
         let dados;
         if (result) {
             dados = result.map((item) => ({

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, selecionarSql, executaSql } from "./database";
+import { cr, retornarDados, executarSql } from "./database";
 
 export async function cadastroVoo(
   valor: number,
@@ -20,7 +20,7 @@ export async function cadastroVoo(
       (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
 
     const dados = [valor, horaSaida, horaChegada, idTrecho];
-    executaSql(sql, dados, objeto);
+    executarSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -37,7 +37,7 @@ export async function visualizarVoos(req: Request, res: Response) {
   try {
     const selectSql = `SELECT * FROM VOO`;
 
-    const result = (await selecionarSql(selectSql, [], "Voos")) as string[][];
+    const result = (await retornarDados(selectSql, [], "Voos")) as string[][];
 
     let dados;
     if (result) {

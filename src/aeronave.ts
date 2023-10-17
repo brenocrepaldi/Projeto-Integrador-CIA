@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql, selecionarSql } from "./database";
+import { cr, executarSql, retornarDados } from "./database";
 
 export async function cadastroAeronave(
   modelo: string,
@@ -26,7 +26,7 @@ export async function cadastroAeronave(
       anoFabricacao,
       idFabricante,
     ];
-    executaSql(sql, dados, objeto);
+    executarSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -45,7 +45,7 @@ export async function visualizarAeronaves(req: Request, res: Response) {
     const selectSql = `
     SELECT A.ID_AERONAVE, A.MODELO, A.NUM_ASSENTO, A.REGISTRO, A.STATUS, A.ANO_FABRICACAO, F.NOME_FABRICANTE FROM  AERONAVE A, FABRICANTE F WHERE A.ID_FABRICANTE = F.ID_FABRICANTE ORDER BY A.ID_AERONAVE`;
 
-    const result = (await selecionarSql(
+    const result = (await retornarDados(
       selectSql,
       [],
       "Aeronaves"

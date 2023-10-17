@@ -6,7 +6,7 @@ import { cadastroAeroporto, visualizarAeroportos } from "./aeroporto";
 import { cadastroFabricante, visualizarFabricante } from "./fabricante";
 import { cadastroTrecho } from "./trecho";
 import { cadastroVoo, visualizarVoos } from "./voo";
-import { excluirSql, selecionarSql, executaSql } from "./database";
+import { excluirDados, retornarDados, executarSql } from "./database";
 
 export const app = express();
 
@@ -35,7 +35,7 @@ app.get("/home", (req, res) => {
 app.get("/cadastro/aeronave", async (req, res) => {
   const selectSql = `SELECT * FROM FABRICANTE`;
 
-  const result = (await selecionarSql(
+  const result = (await retornarDados(
     selectSql,
     [],
     "Fabricantes"
@@ -81,7 +81,7 @@ app.get("/editar/aeronave/:id", async (req, res) => {
 
   const sql = `SELECT * FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
 
-  const result = (await selecionarSql(sql, [], "Aeronaves")) as string[][];
+  const result = (await retornarDados(sql, [], "Aeronaves")) as string[][];
 
   console.log("entrou");
 
@@ -98,7 +98,7 @@ app.get("/editar/aeronave/:id", async (req, res) => {
     }));
   }
 
-  res.render("editFabricante", { aeronaves: dados });
+  res.render("editAeronave", { aeronaves: dados });
 });
 
 app.post("/editar/aeronave/:id", async (req, res) => {
@@ -111,17 +111,39 @@ app.post("/editar/aeronave/:id", async (req, res) => {
   const idfabricante = req.body.idFabricante;
 
   const sql = `
-    UPDATE AERONAVE
-    SET MODELO = '${modelo}',
-        NUM_ASSENTO = ${numAssento},
-        REGISTRO = '${registro}',
-        STATUS = '${status}',
-        ANO_FABRICACAO = ${anoFabricacao},
-        ID_FABRICANTE = ${idfabricante}
-    WHERE ID_AERONAVE = ${idAeronave};
+        DECLARE
+      IN_ID_AERONAVE BINARY_INTEGER;
+      IN_MODELO CHAR(200);
+      IN_NUM_ASSENTO BINARY_INTEGER;
+      IN_REGISTRO CHAR(200);
+      IN_STATUS CHAR(200);
+      IN_ANO_FABRICACAO BINARY_INTEGER;
+      IN_ID_FABRICANTE BINARY_INTEGER;
+      v_Return BINARY_INTEGER;
+    BEGIN
+      IN_ID_AERONAVE := ${idAeronave};
+      IN_MODELO := '${modelo}';
+      IN_NUM_ASSENTO := ${numAssento};
+      IN_REGISTRO := '${registro}';
+      IN_STATUS := '${status}';
+      IN_ANO_FABRICACAO := ${anoFabricacao};
+      IN_ID_FABRICANTE := ${idfabricante};
+
+      v_Return := ALTERAR_DADOS_AERONAVE(
+        IN_ID_AERONAVE => IN_ID_AERONAVE,
+        IN_MODELO => IN_MODELO,
+        IN_NUM_ASSENTO => IN_NUM_ASSENTO,
+        IN_REGISTRO => IN_REGISTRO,
+        IN_STATUS => IN_STATUS,
+        IN_ANO_FABRICACAO => IN_ANO_FABRICACAO,
+        IN_ID_FABRICANTE => IN_ID_FABRICANTE
+      );
+    END;
   `;
 
-  executaSql(sql, [], "Aeronvaves");
+  executarSql(sql, [], "Aeronvaves");
+
+  res.redirect("/visualizar/aeronave");
 });
 
 app.post("/excluir/aeronave/:id", async (req, res) => {
@@ -129,7 +151,7 @@ app.post("/excluir/aeronave/:id", async (req, res) => {
   const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
 
   try {
-    await excluirSql(sql);
+    await excluirDados(sql);
   } catch (error) {
     res
       .status(500)
@@ -142,7 +164,7 @@ app.post("/excluir/aeronave/:id", async (req, res) => {
 app.get("/cadastro/aeroporto", async (req, res) => {
   const selectSql = `SELECT * FROM cidade`;
 
-  const result = (await selecionarSql(selectSql, [], "Cidades")) as string[][];
+  const result = (await retornarDados(selectSql, [], "Cidades")) as string[][];
 
   let dados;
 
@@ -170,7 +192,7 @@ app.post("/excluir/aeroporto/:id", async (req, res) => {
   const sql = `DELETE FROM AEROPORTO WHERE ID_AEROPORTO='${idAeroporto}'`;
 
   try {
-    await excluirSql(sql);
+    await excluirDados(sql);
   } catch (error) {
     res
       .status(500)
@@ -203,7 +225,7 @@ app.get("/editar/fabricante/:id", async (req, res) => {
 
   const sql = `SELECT * FROM FABRICANTE WHERE ID_FABRICANTE = '${idFabricante}'`;
 
-  const result = (await selecionarSql(sql, [], "Fabricantes")) as string[][];
+  const result = (await retornarDados(sql, [], "Fabricantes")) as string[][];
 
   let dados;
 
@@ -218,18 +240,30 @@ app.get("/editar/fabricante/:id", async (req, res) => {
 });
 
 app.post("/editar/fabricante/:id", async (req, res) => {
-  console.log("entrou");
-  const idFabricante = req.params.id;
   const fabricante = req.body.fabricante;
-  console.log(idFabricante, fabricante);
+  const idFabricante = req.params.id;
+  console.log(typeof(idFabricante), typeof(fabricante));
+
   const sql = `
-    UPDATE FABRICANTE
-    SET NOME_FABRICANTE = '${fabricante}'
-    WHERE ID_FABRICANTE = '${idFabricante}';
+        DECLARE
+        IN_ID_FABRICANTE BINARY_INTEGER;
+        IN_NOME_FABRICANTE CHAR(200);
+        v_Return BINARY_INTEGER;
+      BEGIN
+        IN_ID_FABRICANTE := ${idFabricante};
+        IN_NOME_FABRICANTE := '${fabricante}';
+        v_Return := ALTERAR_DADOS_FABRICANTE(
+          IN_ID_FABRICANTE => IN_ID_FABRICANTE,
+          IN_NOME_FABRICANTE => IN_NOME_FABRICANTE
+      );
+    END;
   `;
+
   console.log(sql);
 
-  executaSql(sql, [], "Fabricantes");
+  executarSql(sql, [], "Fabricantes");
+
+  res.redirect("/visualizar/fabricante");
 });
 
 app.post("/excluir/fabricante/:id", async (req, res) => {
@@ -237,7 +271,7 @@ app.post("/excluir/fabricante/:id", async (req, res) => {
   const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}'`;
 
   try {
-    await excluirSql(sql);
+    await excluirDados(sql);
   } catch (error) {
     res
       .status(500)
@@ -250,7 +284,7 @@ app.post("/excluir/fabricante/:id", async (req, res) => {
 app.get("/cadastro/trecho", async (req, res) => {
   const selectSql = `SELECT * FROM aeroporto`;
 
-  const result = (await selecionarSql(
+  const result = (await retornarDados(
     selectSql,
     [],
     "Aeroportos"
@@ -283,7 +317,7 @@ app.get("/cadastro/voo", async (req, res) => {
   //   SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO;
   // `;
 
-  const result = (await selecionarSql(selectSql, [], "Trechos")) as string[][];
+  const result = (await retornarDados(selectSql, [], "Trechos")) as string[][];
 
   let dados;
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, executaSql, selecionarSql } from "./database";
+import { cr, executarSql, retornarDados } from "./database";
 
 export async function cadastroAeroporto(
   aeroporto: string,
@@ -17,7 +17,7 @@ export async function cadastroAeroporto(
     `;
 
     const dados = [aeroporto, cidade];
-    executaSql(sql, dados, objeto);
+    executarSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -35,7 +35,7 @@ export async function visualizarAeroportos(req: Request, res: Response) {
   try {
     const selectSql = `SELECT A.ID_AEROPORTO, A.NOME_AEROPORTO, C.NOME_CIDADE FROM AEROPORTO A, CIDADE C WHERE A.ID_CIDADE = C.ID_CIDADE ORDER BY A.ID_AEROPORTO`;
 
-    const result = (await selecionarSql(
+    const result = (await retornarDados(
       selectSql,
       [],
       "Aeroportos"
