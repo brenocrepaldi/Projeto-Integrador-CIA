@@ -82,6 +82,7 @@ exports.app.get("/editar/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
     const sql = `SELECT * FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
     const result = (await (0, database_1.selecionarSql)(sql, [], "Aeronaves"));
+    console.log("entrou");
     let dados;
     if (result) {
         dados = result.map((item) => ({
@@ -195,7 +196,7 @@ exports.app.get("/editar/fabricante/:id", async (req, res) => {
     res.render("editFabricante", { fabricante: dados });
 });
 exports.app.post("/editar/fabricante/:id", async (req, res) => {
-    console.log('entrou');
+    console.log("entrou");
     const idFabricante = req.params.id;
     const fabricante = req.body.fabricante;
     console.log(idFabricante, fabricante);
