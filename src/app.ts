@@ -76,6 +76,55 @@ app.get("/visualizar/aeronave", (req, res) => {
   visualizarAeronaves(req, res);
 });
 
+app.get("/editar/aeronave/:id", async (req, res) => {
+  const idAeronave = req.params.id;
+
+  const sql = `SELECT * FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
+
+  const result = (await selecionarSql(sql, [], "Aeronaves")) as string[][];
+
+  console.log("entrou");
+
+  let dados;
+  if (result) {
+    dados = result.map((item) => ({
+      idAeronave: item[0],
+      modelo: item[1],
+      numassento: item[2],
+      registro: item[3],
+      status: item[4],
+      anoFabricacao: item[5],
+      fabricante: item[6],
+    }));
+  }
+
+  res.render("editFabricante", { aeronaves: dados });
+});
+
+app.post("/editar/aeronave/:id", async (req, res) => {
+  const idAeronave = req.params.id;
+  const modelo = req.body.modelo;
+  const numAssento = req.body.numAssento;
+  const anoFabricacao = req.body.anoFabricacao;
+  const registro = req.body.registro;
+  const status = req.body.status;
+  const idfabricante = req.body.idFabricante;
+
+  const sql = `
+    UPDATE AERONAVE
+    SET MODELO = '${modelo}',
+        NUM_ASSENTO = ${numAssento},
+        REGISTRO = '${registro}',
+        STATUS = '${status}',
+        ANO_FABRICACAO = ${anoFabricacao},
+        ID_FABRICANTE = ${idfabricante}
+    WHERE ID_AERONAVE = ${idAeronave};
+  `;
+  console.log(sql);
+
+  inserirSql(sql, [], "Aeronvaves");
+});
+
 app.post("/excluir/aeronave/:id", async (req, res) => {
   const idAeronave = req.params.id;
   const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
@@ -150,36 +199,39 @@ app.get("/visualizar/fabricante", (req, res) => {
   visualizarFabricante(req, res);
 });
 
-// app.get("/editar/fabricante/:id", async (req, res) => {
-//   const idFabricante = req.params.id;
+app.get("/editar/fabricante/:id", async (req, res) => {
+  const idFabricante = req.params.id;
 
-//   const sql = `SELECT * FROM FABRICANTE WHERE ID_FABRICANTE = '${idFabricante}'`;
+  const sql = `SELECT * FROM FABRICANTE WHERE ID_FABRICANTE = '${idFabricante}'`;
 
-//   const result = (await selecionarSql(sql, [], "Fabricantes")) as string[][];
+  const result = (await selecionarSql(sql, [], "Fabricantes")) as string[][];
 
-//   let dados;
+  let dados;
 
-//   if (result) {
-//     dados = result.map((item) => ({
-//       idFabricante: item[0],
-//       nomeFabricante: item[1],
-//     }));
-//   }
+  if (result) {
+    dados = result.map((item) => ({
+      idFabricante: item[0],
+      nomeFabricante: item[1],
+    }));
+  }
 
-//   res.render("editFabricante", { fabricante: dados });
-// });
+  res.render("editFabricante", { fabricante: dados });
+});
 
-// app.post("/editar/fabricante/:id", async (req, res) => {
-//   const idFabricante = req.params.id;
-//   const fabricante = req.body.fabricante;
-//   const sql = `
-//     UPDATE FABRICANTE
-//     SET NOME_FABRICANTE = ${fabricante} 
-//     WHERE ID_FABRICANTE = ${idFabricante};
-//   `;
+app.post("/editar/fabricante/:id", async (req, res) => {
+  console.log("entrou");
+  const idFabricante = req.params.id;
+  const fabricante = req.body.fabricante;
+  console.log(idFabricante, fabricante);
+  const sql = `
+    UPDATE FABRICANTE
+    SET NOME_FABRICANTE = '${fabricante}'
+    WHERE ID_FABRICANTE = '${idFabricante}';
+  `;
+  console.log(sql);
 
-//   inserirSql(sql, [], "Fabricantes");
-// });
+  inserirSql(sql, [], "Fabricantes");
+});
 
 app.post("/excluir/fabricante/:id", async (req, res) => {
   const idFabricante = req.params.id;

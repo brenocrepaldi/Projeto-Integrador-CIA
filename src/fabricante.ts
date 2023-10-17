@@ -24,6 +24,7 @@ export async function cadastroFabricante(
       cr.message = "Erro ao conectar ao oracle. Sem detalhes";
     }
   } finally {
+    console.log(cr);
     res.render("cadastroFabricante");
   }
 }

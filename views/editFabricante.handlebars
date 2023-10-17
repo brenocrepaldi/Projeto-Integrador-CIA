@@ -5,7 +5,6 @@
   {{#each fabricante}}
     <form action="/editar/fabricante/{{this.idFabricante}}" method="POST">
       <div class="control-input">
-
         <div class="input">
           <label for="fabricante">Fabricante</label>
           <input
@@ -16,12 +15,10 @@
           />
         </div>
       </div>
-
       <div class="control-button">
         <button type="submit">Cadastrar</button>
         <button type="reset">Limpar</button>
       </div>
-
     </form>
   {{/each}}
 </div>

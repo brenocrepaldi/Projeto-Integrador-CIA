@@ -22,6 +22,7 @@ async function cadastroFabricante(fabricante, req, res) {
         }
     }
     finally {
+        console.log(database_1.cr);
         res.render("cadastroFabricante");
     }
 }

@@ -78,6 +78,45 @@ exports.app.post("/cadastro/aeronave", (req, res) => {
 exports.app.get("/visualizar/aeronave", (req, res) => {
     (0, aeronave_1.visualizarAeronaves)(req, res);
 });
+exports.app.get("/editar/aeronave/:id", async (req, res) => {
+    const idAeronave = req.params.id;
+    const sql = `SELECT * FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
+    const result = (await (0, database_1.selecionarSql)(sql, [], "Aeronaves"));
+    let dados;
+    if (result) {
+        dados = result.map((item) => ({
+            idAeronave: item[0],
+            modelo: item[1],
+            numassento: item[2],
+            registro: item[3],
+            status: item[4],
+            anoFabricacao: item[5],
+            fabricante: item[6],
+        }));
+    }
+    res.render("editFabricante", { aeronaves: dados });
+});
+exports.app.post("/editar/aeronave/:id", async (req, res) => {
+    const idAeronave = req.params.id;
+    const modelo = req.body.modelo;
+    const numAssento = req.body.numAssento;
+    const anoFabricacao = req.body.anoFabricacao;
+    const registro = req.body.registro;
+    const status = req.body.status;
+    const idfabricante = req.body.idFabricante;
+    const sql = `
+    UPDATE AERONAVE
+    SET MODELO = '${modelo}',
+        NUM_ASSENTO = ${numAssento},
+        REGISTRO = '${registro}',
+        STATUS = '${status}',
+        ANO_FABRICACAO = ${anoFabricacao},
+        ID_FABRICANTE = ${idfabricante}
+    WHERE ID_AERONAVE = ${idAeronave};
+  `;
+    console.log(sql);
+    (0, database_1.inserirSql)(sql, [], "Aeronvaves");
+});
 exports.app.post("/excluir/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
     const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
@@ -154,6 +193,19 @@ exports.app.get("/editar/fabricante/:id", async (req, res) => {
         }));
     }
     res.render("editFabricante", { fabricante: dados });
+});
+exports.app.post("/editar/fabricante/:id", async (req, res) => {
+    console.log('entrou');
+    const idFabricante = req.params.id;
+    const fabricante = req.body.fabricante;
+    console.log(idFabricante, fabricante);
+    const sql = `
+    UPDATE FABRICANTE
+    SET NOME_FABRICANTE = '${fabricante}'
+    WHERE ID_FABRICANTE = '${idFabricante}';
+  `;
+    console.log(sql);
+    (0, database_1.inserirSql)(sql, [], "Fabricantes");
 });
 exports.app.post("/excluir/fabricante/:id", async (req, res) => {
     const idFabricante = req.params.id;
