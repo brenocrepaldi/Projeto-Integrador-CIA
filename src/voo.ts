@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, inserirSql, selecionarSql } from "./database";
+import { cr, selecionarSql, executaSql } from "./database";
 
 export async function cadastroVoo(
   valor: number,
@@ -20,7 +20,7 @@ export async function cadastroVoo(
       (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
 
     const dados = [valor, horaSaida, horaChegada, idTrecho];
-    inserirSql(sql, dados, objeto);
+    executaSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

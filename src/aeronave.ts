@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, inserirSql, selecionarSql } from "./database";
+import { cr, executaSql, selecionarSql } from "./database";
 
 export async function cadastroAeronave(
   modelo: string,
@@ -26,7 +26,7 @@ export async function cadastroAeronave(
       anoFabricacao,
       idFabricante,
     ];
-    inserirSql(sql, dados, objeto);
+    executaSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

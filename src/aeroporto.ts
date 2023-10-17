@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { cr, inserirSql, selecionarSql } from "./database";
+import { cr, executaSql, selecionarSql } from "./database";
 
 export async function cadastroAeroporto(
   aeroporto: string,
@@ -17,7 +17,7 @@ export async function cadastroAeroporto(
     `;
 
     const dados = [aeroporto, cidade];
-    inserirSql(sql, dados, objeto);
+    executaSql(sql, dados, objeto);
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

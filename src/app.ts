@@ -6,7 +6,7 @@ import { cadastroAeroporto, visualizarAeroportos } from "./aeroporto";
 import { cadastroFabricante, visualizarFabricante } from "./fabricante";
 import { cadastroTrecho } from "./trecho";
 import { cadastroVoo, visualizarVoos } from "./voo";
-import { excluirSql, executaSql, selecionarSql } from "./database";
+import { excluirSql, selecionarSql, executaSql } from "./database";
 
 export const app = express();
 
@@ -229,7 +229,7 @@ app.post("/editar/fabricante/:id", async (req, res) => {
   `;
   console.log(sql);
 
-  inserirSql(sql, [], "Fabricantes");
+  executaSql(sql, [], "Fabricantes");
 });
 
 app.post("/excluir/fabricante/:id", async (req, res) => {

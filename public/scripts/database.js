@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.excluirSql = exports.selecionarSql = exports.inserirSql = exports.cr = void 0;
+exports.excluirSql = exports.selecionarSql = exports.executaSql = exports.cr = void 0;
 const oracledb_1 = __importDefault(require("oracledb"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
@@ -35,7 +35,7 @@ exports.cr = {
     message: "",
     payload: undefined,
 };
-async function inserirSql(sql, dados, tabela) {
+async function executaSql(sql, dados, tabela) {
     let conn = await oracledb_1.default.getConnection({
         user: process.env.ORACLE_USER,
         password: process.env.ORACLE_PASSWORD,
@@ -53,7 +53,7 @@ async function inserirSql(sql, dados, tabela) {
         exports.cr.message = `Nenhum dado inserido para ${tabela}.`;
     }
 }
-exports.inserirSql = inserirSql;
+exports.executaSql = executaSql;
 async function selecionarSql(sql, dados, tabela) {
     try {
         let conn = await oracledb_1.default.getConnection({

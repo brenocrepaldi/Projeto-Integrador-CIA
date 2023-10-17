@@ -12,7 +12,7 @@ async function cadastroAeroporto(aeroporto, cidade, req, res) {
     (SEQ_AEROPORTO.NEXTVAL, :1, :2)
     `;
         const dados = [aeroporto, cidade];
-        (0, database_1.inserirSql)(sql, dados, objeto);
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {

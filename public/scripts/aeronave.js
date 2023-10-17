@@ -17,7 +17,7 @@ async function cadastroAeronave(modelo, numAssento, anoFabricacao, registro, sta
             anoFabricacao,
             idFabricante,
         ];
-        (0, database_1.inserirSql)(sql, dados, objeto);
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {

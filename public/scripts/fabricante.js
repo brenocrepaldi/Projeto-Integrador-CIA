@@ -10,7 +10,7 @@ async function cadastroFabricante(fabricante, req, res) {
    VALUES
    (SEQ_FABRICANTE.NEXTVAL, :1)`;
         const dados = [fabricante];
-        (0, database_1.inserirSql)(sql, dados, objeto);
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {

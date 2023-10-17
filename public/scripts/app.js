@@ -115,8 +115,7 @@ exports.app.post("/editar/aeronave/:id", async (req, res) => {
         ID_FABRICANTE = ${idfabricante}
     WHERE ID_AERONAVE = ${idAeronave};
   `;
-    console.log(sql);
-    (0, database_1.inserirSql)(sql, [], "Aeronvaves");
+    (0, database_1.executaSql)(sql, [], "Aeronvaves");
 });
 exports.app.post("/excluir/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
@@ -206,7 +205,7 @@ exports.app.post("/editar/fabricante/:id", async (req, res) => {
     WHERE ID_FABRICANTE = '${idFabricante}';
   `;
     console.log(sql);
-    (0, database_1.inserirSql)(sql, [], "Fabricantes");
+    (0, database_1.executaSql)(sql, [], "Fabricantes");
 });
 exports.app.post("/excluir/fabricante/:id", async (req, res) => {
     const idFabricante = req.params.id;

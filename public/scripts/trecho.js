@@ -12,7 +12,7 @@ async function cadastroTrecho(idAeroportoSaida, idAeroportoChegada, req, res) {
       (SEQ_TRECHO.NEXTVAL, :1, :2)`;
         const dados = [idAeroportoSaida, idAeroportoChegada];
         console.log(dados);
-        (0, database_1.inserirSql)(sql, dados, objeto);
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {

@@ -11,7 +11,7 @@ async function cadastroVoo(valor, horaSaida, horaChegada, dataSaida, dataChegada
     VALUES
       (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
         const dados = [valor, horaSaida, horaChegada, idTrecho];
-        (0, database_1.inserirSql)(sql, dados, objeto);
+        (0, database_1.executaSql)(sql, dados, objeto);
     }
     catch (e) {
         if (e instanceof Error) {
