@@ -16,7 +16,7 @@ export let cr: CustomResponse = {
   payload: undefined,
 };
 
-export async function inserirSql(
+export async function executaSql(
   sql: string,
   dados: Array<any>,
   tabela: string

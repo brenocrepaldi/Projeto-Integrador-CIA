@@ -1,6 +1,6 @@
 .container-home {
   width: 80%;
-  height: 60%;
+  height: 75%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,12 +9,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(100px, 150px));
   grid-template-rows: 200px 100px;
-  column-gap: 15rem;
+  column-gap: 10rem;
   row-gap: 2rem;
+  margin: 7rem 0 0 4rem;
 }
 .opcao {
   width: 250px;
   height: 120px;
+  font-size: 1.5rem;
   border-radius: 5px;
   background: var(--background-color);
 }

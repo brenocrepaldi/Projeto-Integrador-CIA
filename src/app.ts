@@ -6,7 +6,7 @@ import { cadastroAeroporto, visualizarAeroportos } from "./aeroporto";
 import { cadastroFabricante, visualizarFabricante } from "./fabricante";
 import { cadastroTrecho } from "./trecho";
 import { cadastroVoo, visualizarVoos } from "./voo";
-import { excluirSql, inserirSql, selecionarSql } from "./database";
+import { excluirSql, executaSql, selecionarSql } from "./database";
 
 export const app = express();
 
@@ -120,9 +120,8 @@ app.post("/editar/aeronave/:id", async (req, res) => {
         ID_FABRICANTE = ${idfabricante}
     WHERE ID_AERONAVE = ${idAeronave};
   `;
-  console.log(sql);
 
-  inserirSql(sql, [], "Aeronvaves");
+  executaSql(sql, [], "Aeronvaves");
 });
 
 app.post("/excluir/aeronave/:id", async (req, res) => {
