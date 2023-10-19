@@ -62,6 +62,8 @@ export async function retornarDados(
 
     let resSql = await conn.execute(sql, dados);
 
+    console.log(resSql);
+
     cr.status = "SUCCESS";
     cr.message = `Dados selecionados com sucesso para ${tabela}`;
 

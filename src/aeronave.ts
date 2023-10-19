@@ -73,3 +73,7 @@ export async function visualizarAeronaves(req: Request, res: Response) {
     }
   }
 }
+
+export function editarAeronave(req:Request, res:Response){
+  
+}

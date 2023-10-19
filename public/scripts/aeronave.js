@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.visualizarAeronaves = exports.cadastroAeronave = void 0;
+exports.editarAeronave = exports.visualizarAeronaves = exports.cadastroAeronave = void 0;
 const database_1 = require("./database");
 async function cadastroAeronave(modelo, numAssento, anoFabricacao, registro, status, idFabricante, req, res) {
     try {
@@ -63,3 +63,6 @@ async function visualizarAeronaves(req, res) {
     }
 }
 exports.visualizarAeronaves = visualizarAeronaves;
+function editarAeronave(req, res) {
+}
+exports.editarAeronave = editarAeronave;

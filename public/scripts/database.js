@@ -71,6 +71,7 @@ async function retornarDados(sql, dados, tabela) {
             connectionString: process.env.ORACLE_STR,
         });
         let resSql = await conn.execute(sql, dados);
+        console.log(resSql);
         exports.cr.status = "SUCCESS";
         exports.cr.message = `Dados selecionados com sucesso para ${tabela}`;
         return resSql.rows;

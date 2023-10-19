@@ -60,10 +60,11 @@ exports.app.get("/cadastro/aeronave", async (req, res) => {
     let dados;
     if (result) {
         dados = result.map((item) => ({
-            nomeFabricante: item[1],
             idFabricante: item[0],
+            nomeFabricante: item[1],
         }));
     }
+    console.log(dados);
     res.render("cadastroAeronave", { fabricante: dados });
 });
 exports.app.post("/cadastro/aeronave", (req, res) => {
@@ -80,22 +81,37 @@ exports.app.get("/visualizar/aeronave", (req, res) => {
 });
 exports.app.get("/editar/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
-    const sql = `SELECT * FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
-    const result = (await (0, database_1.retornarDados)(sql, [], "Aeronaves"));
-    console.log("entrou");
-    let dados;
-    if (result) {
-        dados = result.map((item) => ({
-            idAeronave: item[0],
-            modelo: item[1],
-            numassento: item[2],
-            registro: item[3],
-            status: item[4],
-            anoFabricacao: item[5],
-            fabricante: item[6],
-        }));
+    try {
+        const aeronaveSql = `SELECT ID_AERONAVE, MODELO, NUM_ASSENTO, REGISTRO, STATUS, ANO_FABRICACAO FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
+        const fabricanteSql = `SELECT * FROM FABRICANTE`;
+        const resultAeronave = (await (0, database_1.retornarDados)(aeronaveSql, [], "Aeronaves"));
+        const resultFabricantes = (await (0, database_1.retornarDados)(fabricanteSql, [], "Fabricantes"));
+        let dadosAeronave;
+        let dadosFabricantes;
+        if (resultAeronave) {
+            dadosAeronave = resultAeronave.map((item) => ({
+                idAeronave: item[0],
+                modelo: item[1],
+                numassento: item[2],
+                registro: item[3],
+                status: item[4],
+                anoFabricacao: item[5],
+            }));
+        }
+        if (resultFabricantes) {
+            dadosFabricantes = resultFabricantes.map((item) => ({
+                idFabricante: item[0],
+                nomeFabricante: item[1],
+            }));
+        }
+        res.render("editAeronave", {
+            aeronaves: dadosAeronave,
+            fabricantes: dadosFabricantes,
+        });
     }
-    res.render("editAeronave", { aeronaves: dados });
+    catch (e) {
+        console.log(e);
+    }
 });
 exports.app.post("/editar/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
@@ -140,7 +156,7 @@ exports.app.post("/editar/aeronave/:id", async (req, res) => {
 });
 exports.app.post("/excluir/aeronave/:id", async (req, res) => {
     const idAeronave = req.params.id;
-    const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE='${idAeronave}'`;
+    const sql = `DELETE FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
     try {
         await (0, database_1.excluirDados)(sql);
     }
@@ -172,6 +188,37 @@ exports.app.post("/cadastro/aeroporto", (req, res) => {
 });
 exports.app.get("/visualizar/aeroporto", (req, res) => {
     (0, aeroporto_1.visualizarAeroportos)(req, res);
+});
+exports.app.get("/editar/aeroporto/:id", async (req, res) => {
+    const idAeroporto = req.body.idAeroporto;
+    try {
+        const aeroportoSql = `SELECT * FROM AEROPORTO WHERE ID_AEROPORTO = '${idAeroporto};'`;
+        const cidadeSql = `SELECT * FROM CIDADE`;
+        const resultAeroporto = (await (0, database_1.retornarDados)(aeroportoSql, [], "Aeroportos"));
+        const resultCidades = (await (0, database_1.retornarDados)(cidadeSql, [], "Cidades"));
+        let dadosAeroporto;
+        let dadosCidades;
+        if (resultAeroporto) {
+            dadosAeroporto = resultAeroporto.map((item) => ({
+                idAeroporto: item[0],
+                aeroporto: item[1],
+                idCidade: item[2],
+            }));
+        }
+        if (resultCidades) {
+            dadosCidades = resultCidades.map((item) => ({
+                idCidade: item[0],
+                cidade: item[1],
+            }));
+        }
+        res.render("editAeroporto", {
+            aeroporto: dadosAeroporto,
+            cidades: dadosCidades,
+        });
+    }
+    catch (e) {
+        console.log(e);
+    }
 });
 exports.app.post("/excluir/aeroporto/:id", async (req, res) => {
     const idAeroporto = req.params.id;
@@ -218,7 +265,7 @@ exports.app.get("/editar/fabricante/:id", async (req, res) => {
 exports.app.post("/editar/fabricante/:id", async (req, res) => {
     const fabricante = req.body.fabricante;
     const idFabricante = req.params.id;
-    console.log(typeof (idFabricante), typeof (fabricante));
+    console.log(typeof idFabricante, typeof fabricante);
     const sql = `
         DECLARE
         IN_ID_FABRICANTE BINARY_INTEGER;
