@@ -1,31 +1,38 @@
 <div class="container-cadastro">
   <div class="header-cadastro">
-    <h1>Cadastro de Aeroporto</h1>
+    <h1>Editar Aeroporto</h1>
   </div>
-  <form action="/editar/aeroporto/{{this.idAeroporto}}" method="POST" class="form">
-    <div class="control-input">
-      <div class="input">
-        <label for="aeroporto">Aeroporto</label>
-        <input
-          type="text"
-          name="aeroporto"
-          placeholder="Insira o nome do aeroporto"
-          value="{{this.aeroporto}}"
-        />
-      </div>
-      <div class="input">
-        <label for="idCidade">Cidade</label>
-        <select name="idCidade">
-          {{#each cidades}}
-            <option value="{{this.idCidade}}">{{this.cidade}}</option>
+  {{#each aeroportos}}
+    <form
+      action="/editar/aeroporto/{{this.idAeroporto}}"
+      method="POST"
+      class="form"
+    >
+  {{/each}}
+      <div class="control-input">
+        <div class="input">
+          <label for="aeroporto">Aeroporto</label>
+          {{#each aeroportos}}
+          <input
+            type="text"
+            name="aeroporto"
+            placeholder="Insira o novo nome do aeroporto"
+            value="{{this.aeroporto}}"
+          />
           {{/each}}
-        </select>
+        </div>
+        <div class="input">
+          <label for="idCidade">Cidade</label>
+          <select name="idCidade">
+            {{#each cidades}}
+              <option value="{{this.idCidade}}">{{this.cidade}}</option>
+            {{/each}}
+          </select>
+        </div>
       </div>
-    </div>
-
-    <div class="control-button">
-      <button type="submit">Editar</button>
-      <button type="reset">Limpar</button>
-    </div>
-  </form>
+      <div class="control-button">
+        <button type="submit">Editar</button>
+        <button type="reset">Limpar</button>
+      </div>
+    </form>
 </div>

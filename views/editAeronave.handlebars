@@ -8,6 +8,8 @@
       method="POST"
       class="form"
     >
+  {{/each}}
+  {{#each aeronaves}}
       <div class="control-input">
         <div class="input">
           <label for="modelo">Modelo</label>
@@ -45,6 +47,7 @@
             value="{{this.anoFabricacao}}"
           />
         </div>
+        {{/each}}
         <div class="input">
           <label for="status">Status</label>
           <select name="status">
@@ -68,5 +71,4 @@
         <button type="reset">Limpar</button>
       </div>
     </form>
-  {{/each}}
 </div>

@@ -54,7 +54,6 @@ app.get("/cadastro/aeronave", async (req, res) => {
     }));
   }
 
-  console.log(dados);
   res.render("cadastroAeronave", { fabricante: dados });
 });
 
@@ -86,7 +85,7 @@ app.get("/editar/aeronave/:id", async (req, res) => {
   const idAeronave = req.params.id;
 
   try {
-    const aeronaveSql = `SELECT ID_AERONAVE, MODELO, NUM_ASSENTO, REGISTRO, STATUS, ANO_FABRICACAO FROM AERONAVE WHERE ID_AERONAVE = '${idAeronave}'`;
+    const aeronaveSql = `SELECT ID_AERONAVE, MODELO, NUM_ASSENTO, REGISTRO, STATUS, ANO_FABRICACAO FROM AERONAVE WHERE ID_AERONAVE = ${idAeronave}`;
     const fabricanteSql = `SELECT * FROM FABRICANTE`;
 
     const resultAeronave = (await retornarDados(
@@ -139,35 +138,18 @@ app.post("/editar/aeronave/:id", async (req, res) => {
   const idfabricante = req.body.idFabricante;
 
   const sql = `
-        DECLARE
-      IN_ID_AERONAVE BINARY_INTEGER;
-      IN_MODELO CHAR(200);
-      IN_NUM_ASSENTO BINARY_INTEGER;
-      IN_REGISTRO CHAR(200);
-      IN_STATUS CHAR(200);
-      IN_ANO_FABRICACAO BINARY_INTEGER;
-      IN_ID_FABRICANTE BINARY_INTEGER;
-      v_Return BINARY_INTEGER;
-    BEGIN
-      IN_ID_AERONAVE := ${idAeronave};
-      IN_MODELO := '${modelo}';
-      IN_NUM_ASSENTO := ${numAssento};
-      IN_REGISTRO := '${registro}';
-      IN_STATUS := '${status}';
-      IN_ANO_FABRICACAO := ${anoFabricacao};
-      IN_ID_FABRICANTE := ${idfabricante};
-
-      v_Return := ALTERAR_DADOS_AERONAVE(
-        IN_ID_AERONAVE => IN_ID_AERONAVE,
-        IN_MODELO => IN_MODELO,
-        IN_NUM_ASSENTO => IN_NUM_ASSENTO,
-        IN_REGISTRO => IN_REGISTRO,
-        IN_STATUS => IN_STATUS,
-        IN_ANO_FABRICACAO => IN_ANO_FABRICACAO,
-        IN_ID_FABRICANTE => IN_ID_FABRICANTE
-      );
-    END;
+  UPDATE AERONAVE
+    SET MODELO = '${modelo}',
+    NUM_ASSENTO = ${numAssento},
+    REGISTRO = '${registro}',
+    STATUS = '${status}',
+    ANO_FABRICACAO = ${anoFabricacao},
+    ID_FABRICANTE = ${idfabricante}
+  WHERE 
+    ID_AERONAVE = ${idAeronave}
   `;
+
+  console.log(sql);
 
   executarSql(sql, [], "Aeronvaves");
 
@@ -216,10 +198,10 @@ app.get("/visualizar/aeroporto", (req, res) => {
 });
 
 app.get("/editar/aeroporto/:id", async (req, res) => {
-  const idAeroporto = req.body.idAeroporto;
+  const idAeroporto = req.params.id;
 
   try {
-    const aeroportoSql = `SELECT * FROM AEROPORTO WHERE ID_AEROPORTO = '${idAeroporto};'`;
+    const aeroportoSql = `SELECT * FROM AEROPORTO WHERE ID_AEROPORTO = ${idAeroporto}`;
     const cidadeSql = `SELECT * FROM CIDADE`;
 
     const resultAeroporto = (await retornarDados(
@@ -251,12 +233,31 @@ app.get("/editar/aeroporto/:id", async (req, res) => {
     }
 
     res.render("editAeroporto", {
-      aeroporto: dadosAeroporto,
+      aeroportos: dadosAeroporto,
       cidades: dadosCidades,
     });
+
   } catch (e) {
     console.log(e);
   }
+});
+
+app.post("/editar/aeroporto/:id", (req, res) => {
+  const idAeroporto = req.params.id;
+  const aeroporto = req.body.aeroporto;
+  const idCidade = req.body.idCidade;
+
+  const sql = `
+  UPDATE AEROPORTO
+    SET NOME_AEROPORTO = '${aeroporto}',
+        ID_CIDADE = ${idCidade}
+  WHERE 
+      ID_AEROPORTO = ${idAeroporto}
+  `;
+
+  executarSql(sql, [], "Aeroportos");
+
+  res.redirect("/visualizar/aeroporto");
 });
 
 app.post("/excluir/aeroporto/:id", async (req, res) => {
@@ -266,10 +267,7 @@ app.post("/excluir/aeroporto/:id", async (req, res) => {
   try {
     await excluirDados(sql);
   } catch (error) {
-    res
-      .status(500)
-      .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
-    return;
+    console.log(error)
   } finally {
     res.redirect("/visualizar/aeroporto");
   }
@@ -317,18 +315,10 @@ app.post("/editar/fabricante/:id", async (req, res) => {
   console.log(typeof idFabricante, typeof fabricante);
 
   const sql = `
-        DECLARE
-        IN_ID_FABRICANTE BINARY_INTEGER;
-        IN_NOME_FABRICANTE CHAR(200);
-        v_Return BINARY_INTEGER;
-      BEGIN
-        IN_ID_FABRICANTE := ${idFabricante};
-        IN_NOME_FABRICANTE := '${fabricante}';
-        v_Return := ALTERAR_DADOS_FABRICANTE(
-          IN_ID_FABRICANTE => IN_ID_FABRICANTE,
-          IN_NOME_FABRICANTE => IN_NOME_FABRICANTE
-      );
-    END;
+  UPDATE FABRICANTE
+    SET NOME_FABRICANTE = '${fabricante}'
+  WHERE 
+      ID_FABRICANTE = ${idFabricante}
   `;
 
   console.log(sql);
@@ -381,13 +371,10 @@ app.post("/cadastro/trecho", (req, res) => {
 });
 
 app.get("/cadastro/voo", async (req, res) => {
-  // ARRUMAR
 
-  const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO`;
-
-  // const selectSql = `
-  //   SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO;
-  // `;
+  const selectSql = `
+    SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
+  `;
 
   const result = (await retornarDados(selectSql, [], "Trechos")) as string[][];
 
@@ -397,7 +384,7 @@ app.get("/cadastro/voo", async (req, res) => {
     dados = result.map((item) => ({
       idTrecho: item[0],
       aeroportoSaida: item[1],
-      //aeroportoChegada: item[2],
+      aeroportoChegada: item[2],
     }));
   }
 
