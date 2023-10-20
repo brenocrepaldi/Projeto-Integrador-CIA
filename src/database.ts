@@ -81,6 +81,8 @@ export async function excluirDados(sql: string) {
       connectString: process.env.ORACLE_STR,
     });
 
+    console.log('entrou');
+
     const result = await conn.execute(sql);
     await conn.commit();
 

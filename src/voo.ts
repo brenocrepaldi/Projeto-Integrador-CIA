@@ -3,24 +3,22 @@ import { cr, retornarDados, executarSql } from "./database";
 
 export async function cadastroVoo(
   valor: number,
-  horaSaida: string,
-  horaChegada: string,
-  dataSaida: string,
-  dataChegada: string,
+  timestampSaida: string,
+  timestampChegada: string,
   idTrecho: number,
+  idAeronave: number,
   req: Request,
   res: Response
 ) {
   try {
-    let objeto = "Voo";
     const sql = `
     INSERT INTO VOO 
-      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
+      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO, ID_AERONAVE)
     VALUES
-      (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
+      (SEQ_VOO.NEXTVAL, :1, TO_DATE(:2), TO_DATE(:3), :4, :5)`;
 
-    const dados = [valor, horaSaida, horaChegada, idTrecho];
-    executarSql(sql, dados, objeto);
+    const dados = [valor, timestampSaida, timestampChegada, idTrecho, idAeronave];
+    executarSql(sql, dados, "Voo");
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;

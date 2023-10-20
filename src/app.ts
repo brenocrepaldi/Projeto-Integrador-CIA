@@ -267,7 +267,9 @@ app.post("/excluir/aeroporto/:id", async (req, res) => {
   try {
     await excluirDados(sql);
   } catch (error) {
-    console.log(error)
+    res
+      .status(500)
+      .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
   } finally {
     res.redirect("/visualizar/aeroporto");
   }
@@ -372,23 +374,33 @@ app.post("/cadastro/trecho", (req, res) => {
 
 app.get("/cadastro/voo", async (req, res) => {
 
-  const selectSql = `
+  const trechoSql = `
     SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
   `;
+  const aeronaveSql = `SELECT ID_AERONAVE, MODELO FROM AERONAVE`;
 
-  const result = (await retornarDados(selectSql, [], "Trechos")) as string[][];
+  const resultTrechos = (await retornarDados(trechoSql, [], "Trechos")) as string[][];
+  const resultAeronave = (await retornarDados(aeronaveSql, [], "Aeronaves")) as string[][];
 
-  let dados;
 
-  if (result) {
-    dados = result.map((item) => ({
+  let dadosTrechos;
+  let dadosAeronave;
+
+  if (resultTrechos) {
+    dadosTrechos = resultTrechos.map((item) => ({
       idTrecho: item[0],
       aeroportoSaida: item[1],
       aeroportoChegada: item[2],
     }));
   }
+  if (resultAeronave) {
+    dadosAeronave = resultAeronave.map((item) => ({
+      idAeronave: item[0],
+      modelo: item[1],
+    }));
+  }
 
-  res.render("cadastroVoo", { trechos: dados });
+  res.render("cadastroVoo", { trechos: dadosTrechos, aeronaves: dadosAeronave });
 });
 
 app.post("/cadastro/voo", (req, res) => {
@@ -396,15 +408,19 @@ app.post("/cadastro/voo", (req, res) => {
   const horaSaida = req.body.horaSaida;
   const horaChegada = req.body.horaChegada;
   const dataSaida = req.body.dataSaida;
-  const dataChegada = req.body.dataChagada;
+  const dataChegada = req.body.dataChegada;
   const idTrecho = req.body.idTrecho;
+  const idAeronave = req.body.idAeronave;
+
+  const timestampSaida = `${dataSaida} ${horaSaida}:00`;
+  const timestampChegada = `${dataSaida} ${horaChegada}:00`;
+
   cadastroVoo(
     valor,
-    horaSaida,
-    horaChegada,
+    timestampSaida,
+    timestampChegada,
     idTrecho,
-    dataSaida,
-    dataChegada,
+    idAeronave,
     req,
     res
   );

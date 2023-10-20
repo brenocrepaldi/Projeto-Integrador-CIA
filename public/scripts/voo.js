@@ -2,16 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.visualizarVoos = exports.cadastroVoo = void 0;
 const database_1 = require("./database");
-async function cadastroVoo(valor, horaSaida, horaChegada, dataSaida, dataChegada, idTrecho, req, res) {
+async function cadastroVoo(valor, timestampSaida, timestampChegada, idTrecho, idAeronave, req, res) {
     try {
-        let objeto = "Voo";
         const sql = `
     INSERT INTO VOO 
-      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
+      (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO, ID_AERONAVE)
     VALUES
-      (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
-        const dados = [valor, horaSaida, horaChegada, idTrecho];
-        (0, database_1.executarSql)(sql, dados, objeto);
+      (SEQ_VOO.NEXTVAL, :1, TO_DATE(:2), TO_DATE(:3), :4, :5)`;
+        const dados = [valor, timestampSaida, timestampChegada, idTrecho, idAeronave];
+        (0, database_1.executarSql)(sql, dados, "Voo");
     }
     catch (e) {
         if (e instanceof Error) {

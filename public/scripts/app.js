@@ -222,7 +222,9 @@ exports.app.post("/excluir/aeroporto/:id", async (req, res) => {
         await (0, database_1.excluirDados)(sql);
     }
     catch (error) {
-        console.log(error);
+        res
+            .status(500)
+            .json({ status: "ERROR", message: `Erro na exclusão: Erro` });
     }
     finally {
         res.redirect("/visualizar/aeroporto");
@@ -302,30 +304,40 @@ exports.app.post("/cadastro/trecho", (req, res) => {
     (0, trecho_1.cadastroTrecho)(idAeroportoSaida, idAeroportoChegada, req, res);
 });
 exports.app.get("/cadastro/voo", async (req, res) => {
-    // ARRUMAR
-    //const selectSql = `SELECT T.ID_TRECHO, A.NOME_AEROPORTO FROM TRECHO T, AEROPORTO A WHERE T.ID_AEROPORTO_SAIDA = A.ID_AEROPORTO`;
-    const selectSql = `
+    const trechoSql = `
     SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
   `;
-    const result = (await (0, database_1.retornarDados)(selectSql, [], "Trechos"));
-    let dados;
-    if (result) {
-        dados = result.map((item) => ({
+    const aeronaveSql = `SELECT ID_AERONAVE, MODELO FROM AERONAVE`;
+    const resultTrechos = (await (0, database_1.retornarDados)(trechoSql, [], "Trechos"));
+    const resultAeronave = (await (0, database_1.retornarDados)(aeronaveSql, [], "Aeronaves"));
+    let dadosTrechos;
+    let dadosAeronave;
+    if (resultTrechos) {
+        dadosTrechos = resultTrechos.map((item) => ({
             idTrecho: item[0],
             aeroportoSaida: item[1],
             aeroportoChegada: item[2],
         }));
     }
-    res.render("cadastroVoo", { trechos: dados });
+    if (resultAeronave) {
+        dadosAeronave = resultAeronave.map((item) => ({
+            idAeronave: item[0],
+            modelo: item[1],
+        }));
+    }
+    res.render("cadastroVoo", { trechos: dadosTrechos, aeronaves: dadosAeronave });
 });
 exports.app.post("/cadastro/voo", (req, res) => {
     const valor = req.body.valor;
     const horaSaida = req.body.horaSaida;
     const horaChegada = req.body.horaChegada;
     const dataSaida = req.body.dataSaida;
-    const dataChegada = req.body.dataChagada;
+    const dataChegada = req.body.dataChegada;
     const idTrecho = req.body.idTrecho;
-    (0, voo_1.cadastroVoo)(valor, horaSaida, horaChegada, idTrecho, dataSaida, dataChegada, req, res);
+    const idAeronave = req.body.idAeronave;
+    const timestampSaida = `${dataSaida} ${horaSaida}:00`;
+    const timestampChegada = `${dataSaida} ${horaChegada}:00`;
+    (0, voo_1.cadastroVoo)(valor, timestampSaida, timestampChegada, idTrecho, idAeronave, req, res);
 });
 exports.app.get("/visualizar/voo", (req, res) => {
     (0, voo_1.visualizarVoos)(req, res);

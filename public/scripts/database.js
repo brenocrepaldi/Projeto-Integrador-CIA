@@ -89,6 +89,7 @@ async function excluirDados(sql) {
             password: process.env.ORACLE_PASSWORD,
             connectString: process.env.ORACLE_STR,
         });
+        console.log('entrou');
         const result = await conn.execute(sql);
         await conn.commit();
         console.log("Exclusão SQL executada com sucesso");
