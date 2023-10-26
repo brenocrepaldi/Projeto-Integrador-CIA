@@ -31,21 +31,29 @@
   width: 100%;
   text-align: start;
   font-size: 25px;
+  background: var(--background-color);
+  border: none;
+}
+.content-menu button:hover {
+  background: var(--background-color-hover);
+}
+.container-menu button:focus {
+  background: var(--background-color-hover);
+  box-shadow: none;
+}
+.dropdown {
+  margin-bottom: 1rem;
 }
 
-.menu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.menu a {
+.dropdown ul {
   width: 100%;
-  display: inline;
-  padding: 10px 60px;
+  background: var(--background-color);
+}
+.dropdown a {
+  width: 100%;
   color: #fff;
 }
 
-.menu a:hover {
+.dropdown a:hover {
   background-color: var(--background-color-hover);
 }

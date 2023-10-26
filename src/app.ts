@@ -236,7 +236,6 @@ app.get("/editar/aeroporto/:id", async (req, res) => {
       aeroportos: dadosAeroporto,
       cidades: dadosCidades,
     });
-
   } catch (e) {
     console.log(e);
   }
@@ -267,7 +266,7 @@ app.post("/excluir/aeroporto/:id", async (req, res) => {
   try {
     await excluirDados(sql);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   } finally {
     res.redirect("/visualizar/aeroporto");
   }
@@ -371,7 +370,6 @@ app.post("/cadastro/trecho", (req, res) => {
 });
 
 app.get("/cadastro/voo", async (req, res) => {
-
   const selectSql = `
     SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
   `;

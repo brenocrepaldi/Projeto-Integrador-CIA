@@ -4,37 +4,62 @@
   </div>
   <hr />
   <nav class="content-menu">
-    <button
-      aria-label="Abrir Menu"
-      aria-expanded="false"
-      aria-haspopup="true"
-      aria-controls="menu"
-      id="btn-cadastro"
-    >
-      Cadastro
-    </button>
-
-    <div class="menu" role="menu">
-      <a href="/cadastro/aeronave">Aeronave</a>
-      <a href="/cadastro/aeroporto">Aeroporto</a>
-      <a href="/cadastro/fabricante">Fabricante</a>
-      <a href="/cadastro/trecho">Trecho</a>
-      <a href="/cadastro/voo">Voo</a>
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Cadastro
+      </button>
+      <ul
+        class="dropdown-menu dropdown-menu-dark"
+        aria-labelledby="dropdownMenuButton2"
+      >
+        <li><a
+            class="dropdown-item active"
+            href="/cadastro/aeronave"
+          >Aeronave</a></li>
+        <li><a
+            class="dropdown-item"
+            href="/cadastro/aeroporto"
+          >Aeroporto</a></li>
+        <li><a
+            class="dropdown-item"
+            href="/cadastro/fabricante"
+          >Fabricante</a></li>
+        <li><a class="dropdown-item" href="/cadastro/trecho">Trecho</a></li>
+        <li><a class="dropdown-item" href="/cadastro/voo">Voo</a></li>
+      </ul>
     </div>
-    <button
-      aria-label="Abrir Menu"
-      aria-expanded="false"
-      aria-haspopup="true"
-      aria-controls="menu"
-      id="btn-cadastro"
-    >
-      Visualizar
-    </button>
-    <div class="menu" role="menu">
-      <a href="/visualizar/aeronave">Aeronave</a>
-      <a href="/visualizar/aeroporto">Aeroporto</a>
-      <a href="/visualizar/fabricante">Fabricante</a>
-      <a href="/visualizar/voo">Voo</a>
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton2"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Visualizar
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+        <li><a
+            class="dropdown-item active"
+            href="/visualizar/aeronave"
+          >Aeronave</a></li>
+        <li><a
+            class="dropdown-item"
+            href="/visualizar/aeroporto"
+          >Aeroporto</a></li>
+        <li><a
+            class="dropdown-item"
+            href="/visualizar/fabricante"
+          >Fabricante</a></li>
+
+        <li><a class="dropdown-item" href="/visualizar/voo">Voo</a></li>
+      </ul>
     </div>
   </nav>
 </div>
