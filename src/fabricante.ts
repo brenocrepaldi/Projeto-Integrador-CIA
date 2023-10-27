@@ -18,8 +18,9 @@ export async function cadastroFabricante(
 
     const dados = [fabricante];
 
-    executarSql(sql, dados, objeto);
-
+    if (await executarSql(sql, dados, objeto)) {
+      res.render("modal");
+    }
   } catch (e) {
     if (e instanceof Error) {
       cr.message = e.message;
@@ -29,7 +30,7 @@ export async function cadastroFabricante(
     }
   } finally {
     console.log(cr);
-    res.render("cadastroFabricante");
+    //res.render("cadastroFabricante");
   }
 }
 

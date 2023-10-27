@@ -12,7 +12,9 @@ async function cadastroFabricante(fabricante, req, res) {
       (SEQ_FABRICANTE.NEXTVAL, :1)
     `;
         const dados = [fabricante];
-        (0, database_1.executarSql)(sql, dados, objeto);
+        if (await (0, database_1.executarSql)(sql, dados, objeto)) {
+            res.render("modal");
+        }
     }
     catch (e) {
         if (e instanceof Error) {
@@ -25,7 +27,7 @@ async function cadastroFabricante(fabricante, req, res) {
     }
     finally {
         console.log(database_1.cr);
-        res.render("cadastroFabricante");
+        //res.render("cadastroFabricante");
     }
 }
 exports.cadastroFabricante = cadastroFabricante;

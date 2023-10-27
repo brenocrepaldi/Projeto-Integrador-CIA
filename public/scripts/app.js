@@ -36,6 +36,7 @@ const fabricante_1 = require("./fabricante");
 const trecho_1 = require("./trecho");
 const voo_1 = require("./voo");
 const database_1 = require("./database");
+// import { confirma } from "./modal";
 exports.app = (0, express_1.default)();
 dotenv.config();
 exports.app.use(
@@ -51,8 +52,26 @@ const hbs = (0, express_handlebars_1.create)({
 exports.app.engine("handlebars", hbs.engine);
 exports.app.set("view engine", "handlebars");
 exports.app.set("views", "./views");
-exports.app.get("/home", (req, res) => {
-    res.render("home");
+exports.app.get("/home", async (req, res) => {
+    const selectSql = `SELECT
+  (SELECT COUNT(ID_FABRICANTE) FROM FABRICANTE),
+  (SELECT COUNT(ID_AERONAVE) FROM AERONAVE),
+  (SELECT COUNT(ID_VOO) FROM VOO),
+  (SELECT COUNT(ID_TRECHO) FROM TRECHO),
+  (SELECT COUNT(ID_AEROPORTO) FROM AEROPORTO)
+   FROM DUAL`;
+    const result = (await (0, database_1.retornarDados)(selectSql, [], "Dados"));
+    let dados;
+    if (result) {
+        dados = result.map((item) => ({
+            qtdeFabricante: item[0],
+            qtdeAeronave: item[1],
+            qtdeVoo: item[2],
+            qtdeTrecho: item[3],
+            qtdeAeroporto: item[4],
+        }));
+    }
+    res.render("home", { quantidade: dados });
 });
 exports.app.get("/cadastro/aeronave", async (req, res) => {
     const selectSql = `SELECT * FROM FABRICANTE`;
@@ -234,7 +253,7 @@ exports.app.get("/fabricante", (req, res) => {
 exports.app.get("/cadastro/fabricante", (req, res) => {
     res.render("cadastroFabricante"); // renderiza a página do fabricante
 });
-exports.app.post("/cadastro/fabricante", (req, res) => {
+exports.app.post("/cadastro/fabricante", async (req, res) => {
     const fabricante = req.body.fabricante;
     (0, fabricante_1.cadastroFabricante)(fabricante, req, res);
 });
@@ -328,7 +347,7 @@ exports.app.post("/cadastro/voo", (req, res) => {
 exports.app.get("/visualizar/voo", (req, res) => {
     (0, voo_1.visualizarVoos)(req, res);
 });
-exports.app.use(express_1.default.static("public")); //configurando pra receber o css, definindo a pasta public como static
+exports.app.use(express_1.default.static("public/")); //configurando pra receber o css, definindo a pasta public como static
 exports.app.listen(3333, () => {
     console.log("App funcionando");
 });

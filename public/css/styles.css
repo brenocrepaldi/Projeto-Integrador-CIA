@@ -24,11 +24,11 @@ body {
   display: flex;
 }
 
-.home {
-  width: 25vw;
+.menu {
+  width: 20vw;
   height: 100vh;
 }
 .view {
-  width: 75vw;
+  width: 80vw;
   height: 100vh;
 }

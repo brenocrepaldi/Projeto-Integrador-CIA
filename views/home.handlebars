@@ -1,20 +1,26 @@
 <div class="container-home">
   <div class="content-grid">
-    <div class="opcao">
-      <a href="/visualizar/aeronave">Aeronave <span>#</span></a>
-    </div>
-    <div class="opcao">
-      <a href="/visualizar/aeroporto">Aeroporto <span>#</span></a>
-    </div>
-    <div class="opcao">
-      <a href="/visualizar/voo">Voo <span>#</span></a>
-    </div>
-    <div class="opcao">
-      <a href="/visualizar/fabricante">Fabricante <span>#</span></a>
-    </div>
-    <div class="opcao">
-      <a href="/visualizar/trecho">Trecho <span>#</span></a>
-    </div>
+    {{#each quantidade}}
+      <div class="opcao">
+
+        <a href="/visualizar/aeronave">Aeronave
+          <span>{{qtdeAeronave}}</span></a>
+      </div>
+      <div class="opcao">
+        <a href="/visualizar/aeroporto">Aeroporto
+          <span>{{qtdeAeroporto}}</span></a>
+      </div>
+      <div class="opcao">
+        <a href="/visualizar/voo">Voo <span>{{qtdeVoo}}</span></a>
+      </div>
+      <div class="opcao">
+        <a href="/visualizar/fabricante">Fabricante
+          <span>{{qtdeFabricante}}</span></a>
+      </div>
+      <div class="opcao">
+        <a href="/visualizar/trecho">Trecho <span>{{qtdeTrecho}}</span></a>
+      </div>
+    {{/each}}
   </div>
 
 </div>

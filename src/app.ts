@@ -12,6 +12,7 @@ import { cadastroTrecho } from "./trecho";
 import { cadastroVoo, visualizarVoos } from "./voo";
 import { excluirDados, retornarDados, executarSql } from "./database";
 
+// import { confirma } from "./modal";
 export const app = express();
 
 dotenv.config();
@@ -32,8 +33,29 @@ app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-app.get("/home", (req, res) => {
-  res.render("home");
+app.get("/home", async (req, res) => {
+  const selectSql = `SELECT
+  (SELECT COUNT(ID_FABRICANTE) FROM FABRICANTE),
+  (SELECT COUNT(ID_AERONAVE) FROM AERONAVE),
+  (SELECT COUNT(ID_VOO) FROM VOO),
+  (SELECT COUNT(ID_TRECHO) FROM TRECHO),
+  (SELECT COUNT(ID_AEROPORTO) FROM AEROPORTO)
+   FROM DUAL`;
+
+  const result = (await retornarDados(selectSql, [], "Dados")) as string[][];
+
+  let dados;
+
+  if (result) {
+    dados = result.map((item) => ({
+      qtdeFabricante: item[0],
+      qtdeAeronave: item[1],
+      qtdeVoo: item[2],
+      qtdeTrecho: item[3],
+      qtdeAeroporto: item[4],
+    }));
+  }
+  res.render("home", { quantidade: dados });
 });
 
 app.get("/cadastro/aeronave", async (req, res) => {
@@ -280,8 +302,9 @@ app.get("/cadastro/fabricante", (req, res) => {
   res.render("cadastroFabricante"); // renderiza a página do fabricante
 });
 
-app.post("/cadastro/fabricante", (req, res) => {
+app.post("/cadastro/fabricante", async (req, res) => {
   const fabricante = req.body.fabricante;
+
   cadastroFabricante(fabricante, req, res);
 });
 
@@ -412,7 +435,7 @@ app.get("/visualizar/voo", (req, res) => {
   visualizarVoos(req, res);
 });
 
-app.use(express.static("public")); //configurando pra receber o css, definindo a pasta public como static
+app.use(express.static("public/")); //configurando pra receber o css, definindo a pasta public como static
 
 app.listen(3333, () => {
   console.log("App funcionando");

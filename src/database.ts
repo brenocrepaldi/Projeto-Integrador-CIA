@@ -36,6 +36,7 @@ export async function executarSql(
     if (rowsInserted !== undefined && rowsInserted === 1) {
       cr.status = "SUCCESS";
       cr.message = `Dado inserido para ${tabela}.`;
+      return true;
     } else if (rowsInserted === undefined) {
       cr.status = "SUCCESS";
       cr.message = `Nenhum dado inserido para ${tabela}.`;
@@ -43,6 +44,7 @@ export async function executarSql(
   } catch (e) {
     cr.status = "ERRO";
     cr.message = `Erro na execução SQL para ${tabela}: ${e}`;
+    return false;
   } finally {
     console.log(cr);
   }
@@ -88,7 +90,7 @@ export async function excluirDados(sql: string) {
     return result.rowsAffected;
   } catch (e) {
     console.error("Erro na exclusão SQL:", e);
-    throw e; 
+    throw e;
   } finally {
     console.log(cr);
   }

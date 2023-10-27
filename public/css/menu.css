@@ -14,9 +14,12 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
+  padding: 1rem 0 0 1rem;
+}
+.header-menu h1 {
+  font-size: 2rem;
   font-family: "Montserrat", sans-serif;
 }
-
 .content-menu {
   width: 100%;
   height: 100%;
@@ -49,11 +52,12 @@
   width: 100%;
   background: var(--background-color);
 }
-.dropdown a {
+.dropdown ul li a {
   width: 100%;
+  padding: 0.8rem 0;
   color: #fff;
 }
 
-.dropdown a:hover {
+.dropdown ul li a:hover {
   background-color: var(--background-color-hover);
 }

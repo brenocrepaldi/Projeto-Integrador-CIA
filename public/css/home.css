@@ -11,7 +11,7 @@
   grid-template-rows: 200px 100px;
   column-gap: 10rem;
   row-gap: 2rem;
-  margin: 7rem 0 0 4rem;
+  margin: 2rem 0 0 4rem;
 }
 .opcao {
   width: 250px;
@@ -30,4 +30,14 @@
 .opcao a:hover {
   background: var(--background-color-hover);
   border-radius: 5px;
+}
+.home {
+  margin-bottom: 1rem;
+}
+.btn a {
+  display: inline-block;
+  width: 100%;
+}
+.btn a:hover {
+  color: #fff;
 }

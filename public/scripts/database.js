@@ -48,6 +48,7 @@ async function executarSql(sql, dados, tabela) {
         if (rowsInserted !== undefined && rowsInserted === 1) {
             exports.cr.status = "SUCCESS";
             exports.cr.message = `Dado inserido para ${tabela}.`;
+            return true;
         }
         else if (rowsInserted === undefined) {
             exports.cr.status = "SUCCESS";
@@ -57,6 +58,7 @@ async function executarSql(sql, dados, tabela) {
     catch (e) {
         exports.cr.status = "ERRO";
         exports.cr.message = `Erro na execução SQL para ${tabela}: ${e}`;
+        return false;
     }
     finally {
         console.log(exports.cr);
