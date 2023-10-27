@@ -438,5 +438,5 @@ app.get("/visualizar/voo", (req, res) => {
 app.use(express.static("public/")); //configurando pra receber o css, definindo a pasta public como static
 
 app.listen(3333, () => {
-  console.log("App funcionando");
+  console.log("App funcionando em http://localhost:3333/home");
 });
