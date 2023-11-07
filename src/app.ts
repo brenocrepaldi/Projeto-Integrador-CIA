@@ -415,6 +415,8 @@ app.post("/cadastro/voo", (req, res) => {
   const timestampSaida = `${dataSaida} ${horaSaida}:00`;
   const timestampChegada = `${dataSaida} ${horaChegada}:00`;
 
+  console.log(timestampSaida, timestampChegada);
+
   cadastroVoo(
     valor,
     timestampSaida,

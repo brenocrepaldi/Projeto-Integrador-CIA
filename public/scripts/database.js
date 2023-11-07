@@ -42,8 +42,12 @@ async function executarSql(sql, dados, tabela) {
             password: process.env.ORACLE_PASSWORD,
             connectionString: process.env.ORACLE_STR,
         });
+        console.log(sql, dados);
         let resSql = await conn.execute(sql, dados);
         await conn.commit();
+        console.log(resSql.rowsAffected);
+        console.log("--------------------------------------");
+        console.log(resSql.rows);
         const rowsInserted = resSql.rowsAffected;
         if (rowsInserted !== undefined && rowsInserted === 1) {
             exports.cr.status = "SUCCESS";

@@ -337,6 +337,7 @@ exports.app.post("/cadastro/voo", (req, res) => {
     const idAeronave = req.body.idAeronave;
     const timestampSaida = `${dataSaida} ${horaSaida}:00`;
     const timestampChegada = `${dataSaida} ${horaChegada}:00`;
+    console.log(timestampSaida, timestampChegada);
     (0, voo_1.cadastroVoo)(valor, timestampSaida, timestampChegada, idTrecho, idAeronave, req, res);
 });
 exports.app.get("/visualizar/voo", (req, res) => {
