@@ -1,0 +1,30 @@
+<div class="container-cadastro">
+  <div class="header-cadastro">
+    <h1>Cadastro de Aeroporto</h1>
+  </div>
+  <form action="/cadastro/aeroporto" method="POST" class="form">
+    <div class="control-input">
+      <div class="input">
+        <label for="aeroporto">Aeroporto</label>
+        <input
+          type="text"
+          name="aeroporto"
+          placeholder="Insira o nome do aeroporto"
+        />
+      </div>
+      <div class="input">
+        <label for="idCidade">Cidade</label>
+        <select name="idCidade">
+          {{#each cidades}}
+            <option value="{{this.idCidade}}">{{this.cidade}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+
+    <div class="control-button">
+      <button type="submit">Cadastrar</button>
+      <button type="reset">Limpar</button>
+    </div>
+  </form>
+</div>

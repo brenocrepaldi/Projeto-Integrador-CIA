@@ -1,0 +1,58 @@
+<div class="container-cadastro">
+  <div class="header-cadastro">
+    <h1>Cadastro de Aeronave</h1>
+  </div>
+  <form action="/cadastro/aeronave" method="POST" class="form">
+    <div class="control-input">
+      <div class="input">
+        <label for="modelo">Modelo</label>
+        <input
+          type="text"
+          name="modelo"
+          placeholder="Insira o modelo da aeronave"
+        />
+      </div>
+      <div class="input">
+        <label for="numAssento">Número de assentos</label>
+        <input
+          type="text"
+          name="numAssento"
+          placeholder="Quantidade de assentos"
+        />
+      </div>
+      <div class="input">
+        <label for="registro">Registro</label>
+        <input type="text" name="registro" placeholder="Registro da aeronave" />
+      </div>
+      <div class="input">
+        <label for="anoFabricacao">Ano de Fabricação</label>
+        <input
+          type="text"
+          name="anoFabricacao"
+          placeholder="Insira o ano de fabricação"
+        />
+      </div>
+      <div class="input">
+        <label for="status">Status</label>
+        <select name="status">
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+      </div>
+      <div class="input">
+        <label for="idFabricante">Fabricante</label>
+        <select name="idFabricante">
+          {{#each fabricante}}
+            <option
+              value="{{this.idFabricante}}"
+            >{{this.nomeFabricante}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    <div class="control-button">
+      <button type="submit">Cadastrar</button>
+      <button type="reset">Limpar</button>
+    </div>
+  </form>
+</div>

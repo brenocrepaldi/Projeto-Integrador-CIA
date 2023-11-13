@@ -6,7 +6,7 @@ O projeto consiste em criar a parte administrativa de uma companhia aérea, onde
 
 ## Começando......
 
-Essa instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimetno e teste.
+Rode "nm run dev" no seu terminal para rodar o projeto
 
 ### Pré-requistos
 
@@ -14,7 +14,7 @@ Execute os comandos listados abaixo:
 
 *npm init -y -> Inicia um projeto<br>
 *npm i express express-handlebars -> instalando módulo express, handlebars(para express) <br>
-*npm i nodemon -D -> instalando módulo nodemon como dependência de desenvolvimento <br>
+*npm i ts-node-dev -D -> instalando módulo ts-node-dev como dependência de desenvolvimento <br>
 *npm i typescript -D -> instalar typescript como dependência de desenvolvimento <br>
 *npm i @types/node @types/express @types/oracledb -D <br>
 *npm i oracledb -D -> instalar oracle como dependência de desenvolvimento <br>

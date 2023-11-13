@@ -1,0 +1,31 @@
+<div class="container-visualizar">
+  <div class="header-visualizar">
+    <h1>Visualizar Fabricante</h1>
+  </div>
+  <div class="control-dados">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Fabricante</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each fabricantes}}
+          <tr data-id="{{this.idFabricante}}">
+            <td>{{this.idFabricante}}</td>
+            <td>{{this.nomeFabricante}}</td>
+            <td class="button"><button><a
+                  href="/editar/fabricante/{{this.idFabricante}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/fabricante/{{this.idFabricante}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

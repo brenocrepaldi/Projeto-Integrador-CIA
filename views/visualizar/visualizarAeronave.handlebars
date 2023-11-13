@@ -1,0 +1,46 @@
+<div class="container-visualizar">
+  <div class="header-visualizar">
+    <h1>Aeronaves</h1>
+  </div>
+  <div class="control-dados">
+    <table id="example" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Modelo</th>
+          <th>Assentos</th>
+          <th>Registro</th>
+          <th>Status</th>
+          <th>Fabricante</th>
+          <th>Ano de Fabricação</th>
+          <th>Número de assentos</th>
+          <th>Número de assentos</th>
+          <th>Número de assentos</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each aeronaves}}
+          <tr>
+            <td>{{this.idAeronave}}</td>
+            <td>{{this.modelo}}</td>
+            <td>{{this.numassento}}</td>
+            <td>{{this.registro}}</td>
+            <td>{{this.status}}</td>
+            <td>{{this.fabricante}}</td>
+            <td>{{this.anoFabricacao}}</td>
+            <td>{{this.numassento}}</td>
+            <td class="button"><button><a
+                  href="/editar/aeronave/{{this.idAeronave}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/aeronave/{{this.idAeronave}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
+          </tr>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

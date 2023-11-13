@@ -1,0 +1,36 @@
+<div class="container-visualizar">
+  <div class="header-visualizar">
+    <h1>Voos</h1>
+  </div>
+  <div class="control-dados">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Aeroporto de Partida</th>
+          <th>Aeroporto de Chegada</th>
+          <th>Preço</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each voos}}
+          <tr>
+            <td>{{this.idVoo}}</td>
+            <td>{{this.aeroportoSaida}}</td>
+            <td>{{this.aeroportoChegada}}</td>
+            <td>{{this.valor}}</td>
+            <td class="button"><button><a
+                  href="/editar/voo/{{this.idVoo}}"
+                >Editar</a></td>
+            <td class="button">
+              <form
+                action="/excluir/voo/{{this.idVoo}}"
+                method="POST"
+              ><button type="submit">Excluir</button></form></td>
+          </tr>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

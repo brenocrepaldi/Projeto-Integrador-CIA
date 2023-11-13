@@ -28,7 +28,12 @@
   grid-template-columns: repeat(3, minmax(200px, 2fr));
   margin-bottom: 2rem;
 }
-
+#voo {
+  grid-template-columns: 1fr 1fr;
+}
+#trecho {
+  grid-template-columns: 1fr;
+}
 .control-button {
   width: 80%;
   display: flex;
@@ -36,5 +41,5 @@
   justify-content: start;
 }
 .control-button button {
-  min-width: 120px;
+  min-width: 100px;
 }

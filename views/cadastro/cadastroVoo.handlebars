@@ -1,0 +1,49 @@
+<div class="container-cadastro">
+  <div class="header-cadastro">
+    <h1>Cadastro de Voo</h1>
+  </div>
+  <form action="/cadastro/voo" method="POST" class="form">
+    <div class="control-input" id="voo">
+      <div class="input">
+        <label for="valor">Valor Passagem</label>
+        <input
+          type="text"
+          name="valor"
+          placeholder="Insira o valor da passagem"
+        />
+      </div>
+      <div class="input">
+        <label for="idTrecho">Trecho</label>
+        <select name="idTrecho">
+          {{#each trechos}}
+            <option value="{{this.idTrecho}}">De
+              {{this.aeroportoSaida}}
+              para
+              {{this.aeroportoChegada}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="input">
+        <label for="dataSaida">Data de Saída</label>
+        <input type="date" name="dataSaida" placeholder="Horário Saída" />
+      </div>
+      <div class="input">
+        <label for="horaSaida">Horário Saída</label>
+        <input type="time" name="horaSaida" placeholder="Horário Saída" />
+      </div>
+      <div class="input">
+        <label for="dataChegada">Data de Chegada</label>
+        <input type="date" name="dataChegada" placeholder="Horário Chegada" />
+      </div>
+      <div class="input">
+        <label for="horaChegada">Horário Chegada</label>
+        <input type="time" name="horaChegada" placeholder="Horário Chegada" />
+      </div>
+
+    </div>
+    <div class="control-button">
+      <button type="submit">Cadastrar</button>
+      <button type="reset">Limpar</button>
+    </div>
+  </form>
+</div>
