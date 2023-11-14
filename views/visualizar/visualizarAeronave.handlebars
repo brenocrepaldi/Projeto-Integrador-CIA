@@ -2,8 +2,8 @@
   <div class="header-visualizar">
     <h1>Aeronaves</h1>
   </div>
-  <div class="control-dados">
-    <table id="example" class="table table-striped">
+  <div class="control-dados table-responsive">
+    <table id="example" class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Código</th>
@@ -13,9 +13,8 @@
           <th>Status</th>
           <th>Fabricante</th>
           <th>Ano de Fabricação</th>
-          <th>Número de assentos</th>
-          <th>Número de assentos</th>
-          <th>Número de assentos</th>
+          <th>editar</th>
+          <th>excluit</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +27,6 @@
             <td>{{this.status}}</td>
             <td>{{this.fabricante}}</td>
             <td>{{this.anoFabricacao}}</td>
-            <td>{{this.numassento}}</td>
             <td class="button"><button><a
                   href="/editar/aeronave/{{this.idAeronave}}"
                 >Editar</a></td>

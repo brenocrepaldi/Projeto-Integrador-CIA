@@ -25,10 +25,10 @@ body {
 }
 
 .menu {
-  width: 20vw;
-  height: 100vh;
+  width: 20%;
+  height: 100%;
 }
 .view {
-  width: 80vw;
-  height: 100vh;
+  width: 80%;
+  height: 100%;
 }
