@@ -65,7 +65,7 @@ export class VooController {
   }
   static async showVoo(req: Request, res: Response) {
     try {
-      const selectSql = `SELECT * FROM VOO  w`;
+      const selectSql = `SELECT * FROM VOO `;
 
       const result = (await retornarDados(selectSql, [], "Voos")) as string[][];
 
