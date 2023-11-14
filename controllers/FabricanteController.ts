@@ -100,7 +100,6 @@ export class FabricanteController {
   }
   static async removeFabricante(req: Request, res: Response) {
     const idFabricante = req.params.id;
-    console.log("Fabricante ->", idFabricante);
     const sql = `DELETE FROM FABRICANTE WHERE ID_FABRICANTE='${idFabricante}'`;
 
     try {

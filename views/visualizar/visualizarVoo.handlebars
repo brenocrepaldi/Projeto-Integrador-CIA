@@ -7,20 +7,24 @@
       <thead>
         <tr>
           <th>Código</th>
-          <th>Aeroporto de Partida</th>
-          <th>Aeroporto de Chegada</th>
           <th>Preço</th>
-          <th>Preço</th>
-          <th>Preço</th>
+          <th>Data de Saída</th>
+          <th>Data de Chegada</th>
+          <th>Trecho</th>
+          <th>Aeronave</th>
+          <th>Editar</th>
+          <th>Excluir</th>
         </tr>
       </thead>
       <tbody>
         {{#each voos}}
-          <tr>
+          <tr data-id="{{this.idVoo}}">
             <td>{{this.idVoo}}</td>
-            <td>{{this.aeroportoSaida}}</td>
-            <td>{{this.aeroportoChegada}}</td>
             <td>{{this.valor}}</td>
+            <td>{{this.horaSaida}}</td>
+            <td>{{this.horaChegada}}</td>
+            <td>{{this.idTrecho}}</td>
+            <td>{{this.idAeronave}}</td>
             <td class="button"><button><a
                   href="/editar/voo/{{this.idVoo}}"
                 >Editar</a></td>

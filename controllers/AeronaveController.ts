@@ -149,8 +149,6 @@ export class AeronaveController {
       ID_AERONAVE = ${idAeronave}
     `;
 
-    console.log(sql);
-
     executarSql(sql, [], "Aeronaves");
 
     res.redirect("/visualizar/aeronave");
