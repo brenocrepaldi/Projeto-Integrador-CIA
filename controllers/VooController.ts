@@ -3,17 +3,14 @@ import { cr, executarSql, retornarDados, excluirDados } from "../db/database";
 
 export class VooController {
   static async createVoo(req: Request, res: Response) {
-    const selectSql = `
-    SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
+    const sql = `
+    SELECT T.ID_TRECHO, A_SAIDA.NOME_AEROPORTO AS NOME_AEROPORTO_SAIDA, A_CHEGADA.NOME_AEROPORTO AS NOME_AEROPORTO_CHEGADA  FROM TRECHO T JOIN AEROPORTO A_SAIDA ON T.ID_AEROPORTO_SAIDA = A_SAIDA.ID_AEROPORTO JOIN AEROPORTO A_CHEGADA ON T.ID_AEROPORTO_CHEGADA = A_CHEGADA.ID_AEROPORTO
   `;
+    const sql2 = "SELECT ID_AERONAVE, REGISTRO FROM AERONAVE";
+    const result = (await retornarDados(sql, [], "Trechos")) as string[][];
+    const result2 = (await retornarDados(sql2, [], "Aeronave")) as string[][];
 
-    const result = (await retornarDados(
-      selectSql,
-      [],
-      "Trechos"
-    )) as string[][];
-
-    let dados;
+    let dados, dados2;
 
     if (result) {
       dados = result.map((item) => ({
@@ -22,25 +19,38 @@ export class VooController {
         aeroportoChegada: item[2],
       }));
     }
-
-    res.render("cadastro/cadastroVoo", { trechos: dados });
+    if (result2) {
+      dados2 = result2.map((item) => ({
+        idAeronave: item[0],
+        registro: item[1],
+      }));
+    }
+    res.render("cadastro/cadastroVoo", { trechos: dados, aeronaves: dados2 });
   }
   static async createVooSave(req: Request, res: Response) {
     const valor = req.body.valor;
     const horaSaida = req.body.horaSaida;
     const horaChegada = req.body.horaChegada;
     const dataSaida = req.body.dataSaida;
-    const dataChegada = req.body.dataChagada;
+    const dataChegada = req.body.dataChegada;
     const idTrecho = req.body.idTrecho;
+    const id_aeronave = req.body.idAeronave;
+
     try {
       let objeto = "Voo";
       const sql = `
         INSERT INTO VOO 
-          (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO)
+          (ID_VOO, VALOR, HORARIO_SAIDA, HORARIO_CHEGADA, ID_TRECHO, ID_AERONAVE)
         VALUES
-          (SEQ_VOO.NEXTVAL, :1, :2, :3, :4)`;
+          (SEQ_VOO.NEXTVAL, :1, TO_DATE(:2, 'YYYY-MM-DD HH24:MI'), TO_DATE(:3, 'YYYY-MM-DD HH24:MI'), :4, :5)`;
 
-      const dados = [valor, horaSaida, horaChegada, idTrecho];
+      const dados = [
+        valor,
+        dataSaida + " " + horaSaida.toString(),
+        dataChegada + " " + horaChegada.toString(),
+        idTrecho,
+        id_aeronave,
+      ];
       executarSql(sql, dados, objeto);
     } catch (e) {
       if (e instanceof Error) {
