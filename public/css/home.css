@@ -46,13 +46,4 @@
   .p-3 {
     padding: 0.5rem !important;
   }
-  button a {
-    padding: 0 12rem 0 0;
-  }
-}
-button a {
-  padding: 0 18rem 0 0;
-}
-button a:hover {
-  color: #fff;
 }
