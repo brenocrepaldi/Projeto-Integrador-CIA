@@ -41,3 +41,6 @@ tr:hover {
 .button button {
   height: 45px;
 }
+.button a:hover {
+  color: #fff;
+}

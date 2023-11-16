@@ -23,8 +23,12 @@ export class AeronaveController {
     res.render("cadastro/cadastroAeronave", { fabricante: dados });
   }
   static async createAeronaveSave(req: Request, res: Response) {
-    const [modelo, numAssento, anoFabricacao, registro, status, idFabricante] =
-      req.body;
+    const modelo = req.body.modelo;
+    const numAssento = req.body.numAssento;
+    const anoFabricacao = req.body.anoFabricacao;
+    const registro = req.body.registro;
+    const status = req.body.status;
+    const idFabricante = req.body.idFabricante;
     try {
       const objeto = "Aeronave";
       const sql = `INSERT INTO AERONAVE 
