@@ -12,15 +12,15 @@
           <th>Data de Chegada</th>
           <th>Trecho</th>
           <th>Aeronave</th>
-          <th>Editar</th>
-          <th>Excluir</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         {{#each voos}}
           <tr data-id="{{this.idVoo}}">
             <td>{{this.idVoo}}</td>
-            <td>{{this.valor}}</td>
+            <td>R$ {{this.valor}}</td>
             <td>{{this.horaSaida}}</td>
             <td>{{this.horaChegada}}</td>
             <td>{{this.idTrecho}}</td>
